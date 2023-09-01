@@ -1,0 +1,46 @@
+{
+    "name": "ryanmitchell/statamic-translation-manager",
+    "license": "mit",
+    "type": "statamic-addon",
+    "require": {
+        "php": "^8.2",
+        "laravel/framework": "^9.6 || ^10.0",
+        "statamic/cms": "^4.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.3.1",
+        "nunomaduro/collision": "^7.0",
+        "phpunit/phpunit": "^10.0",
+        "orchestra/testbench": "^8.0"
+    },
+    "description": "Manager Laravel language files from the Statamic CP",
+    "authors": [
+        {
+            "name": "Ryan Mitchell",
+            "email": "ryan@thoughtcollective.com",
+            "homepage": "https://www.thoughtcollective.com",
+            "role": "Chief"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "RyanMitchell\\StatamicTranslationManager\\": "src"
+        }
+    },
+    "extra": {
+        "statamic": {
+            "name": "Translation Manager",
+            "description": "Manager Laravel language files from the Statamic CP"
+        },
+        "laravel": {
+            "providers": [
+                "RyanMitchell\\StatamicTranslationManager\\ServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pixelfear/composer-dist-plugin": true
+        }
+    }
+}
