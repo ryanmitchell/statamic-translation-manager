@@ -64,12 +64,16 @@ class TranslationsManager
                     }
                     
                     foreach ($strings as $key => $string) {
-                        $this->translations[] = [
-                            'file' => Str::before($file->getFilename(), '.'),
-                            'locale' => $locale,
-                            'key' => $key,
-                            'string' => $string,
-                        ];
+                        $namespace = Str::before($file->getFilename(), '.');
+                        
+                        if (! in_array($namespace, config('statamic-translations.exclude_namespaces', []))) {
+                            $this->translations[] = [
+                                'file' => $namespace,
+                                'locale' => $locale,
+                                'key' => $key,
+                                'string' => $string,
+                            ];
+                        }
                     }
                 } catch (FileNotFoundException $e) {
                     //
