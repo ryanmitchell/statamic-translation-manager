@@ -79,6 +79,7 @@ class TranslationController extends Controller
     private function getDataForLocale($locale)
     {
         $translations = Models\Translation::where('locale', $locale)
+            ->orderBy('key')
             ->get()
             ->groupBy('file');
         
