@@ -26,9 +26,9 @@ tabs:
                   handle: string
                   field:
                     antlers: false
-                    type: textarea
+                    type: text
                     display: Translation
-                    icon: textarea
+                    icon: text
                     localizable: false
                     width: 66
                     listable: hidden
