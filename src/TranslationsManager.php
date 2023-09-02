@@ -69,8 +69,8 @@ class TranslationsManager
                         if (! in_array($namespace, config('statamic-translations.exclude_namespaces', []))) {
                             if (is_string($string)) {
                                 $this->translations[] = [
-                                    'file' => $namespace,
-                                    'locale' => $locale ?: $namespace,
+                                    'file' => $locale == '' ? 'default' : $namespace,
+                                    'locale' => $locale == '' ? $namespace : $locale,
                                     'key' => $key,
                                     'string' => $string,
                                 ];
@@ -94,14 +94,16 @@ class TranslationsManager
                             
             $phrases = Arr::undot($phrases);
 
-            $path = lang_path("{$locale}/{$namespace}.json");
+            $filepath = $namespace == 'default' ? $locale : "{$locale}/{$namespace}";
+
+            $path = lang_path("{$filepath}.json");
 
             if (! $this->filesystem->isDirectory(dirname($path))) {
                 $this->filesystem->makeDirectory(dirname($path), 0755, true);
             }
 
             if (! $this->filesystem->exists($path)) {
-                $path = lang_path("{$locale}/{$namespace}.php");
+                $path = lang_path("{$filepath}.php");
                 
                 if (! $this->filesystem->exists($path)) {
                     $this->filesystem->put($path, "<?php\n\nreturn [\n\n]; ".PHP_EOL);
