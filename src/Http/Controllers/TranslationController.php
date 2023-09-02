@@ -68,7 +68,7 @@ class TranslationController extends Controller
 
         foreach ($namespaces as $namespace) {
             $newTab = $tab;
-            Arr::set($newTab, 'display', $namespace);
+            Arr::set($newTab, 'display', $namespace == '__default' ? __('Root') : ucfirst($namespace));
             Arr::set($newTab, 'sections.0.fields.0.handle', $namespace);
             $yaml['tabs']['tab_'.$namespace] = $newTab;
         }

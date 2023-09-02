@@ -69,7 +69,7 @@ class TranslationsManager
                         if (! in_array($namespace, config('statamic-translations.exclude_namespaces', []))) {
                             if (is_string($string)) {
                                 $this->translations[] = [
-                                    'file' => $locale == '' ? 'default' : $namespace,
+                                    'file' => $locale == '' ? '__default' : $namespace,
                                     'locale' => $locale == '' ? $namespace : $locale,
                                     'key' => $key,
                                     'string' => $string,
@@ -94,7 +94,7 @@ class TranslationsManager
                             
             $phrases = Arr::undot($phrases);
 
-            $filepath = $namespace == 'default' ? $locale : "{$locale}/{$namespace}";
+            $filepath = $namespace == '__default' ? $locale : "{$locale}/{$namespace}";
 
             $path = lang_path("{$filepath}.json");
 

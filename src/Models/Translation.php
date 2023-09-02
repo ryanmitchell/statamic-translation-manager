@@ -9,9 +9,9 @@ use Sushi\Sushi;
 class Translation extends Model
 {
     use Sushi;
-    
+
     public $sushiInsertChunkSize = 25;
-    
+
     protected $schema = [
         'file' => 'string',
         'locale' => 'string',
@@ -21,11 +21,11 @@ class Translation extends Model
 
     public function getRows()
     {
-        return Facades\TranslationManager::getTranslations();    
+        return Facades\TranslationManager::getTranslations();
     }
-    
+
     protected function sushiShouldCache()
     {
-        return false;
+        return true;
     }
 }

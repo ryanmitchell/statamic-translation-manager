@@ -9,18 +9,18 @@ use Sushi\Sushi;
 class Language extends Model
 {
     use Sushi;
-    
+
     protected $schema = [
         'name' => 'string',
     ];
 
     public function getRows()
     {
-        return Facades\TranslationManager::getLocales();    
+        return Facades\TranslationManager::getLocales();
     }
-    
+
     protected function sushiShouldCache()
     {
-        return false;
+        return true;
     }
 }
