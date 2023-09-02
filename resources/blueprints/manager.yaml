@@ -1,0 +1,49 @@
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: translations
+            field:
+              fields:
+                -
+                  handle: key
+                  field:
+                    input_type: text
+                    antlers: false
+                    type: text
+                    display: Key
+                    icon: text
+                    localizable: false
+                    width: 33
+                    listable: hidden
+                    instructions_position: above
+                    visibility: visible
+                    hide_display: false
+                -
+                  handle: string
+                  field:
+                    antlers: false
+                    type: textarea
+                    display: Translation
+                    icon: textarea
+                    localizable: false
+                    width: 66
+                    listable: hidden
+                    instructions_position: above
+                    visibility: visible
+                    hide_display: false
+              mode: stacked
+              reorderable: false
+              fullscreen: false
+              type: grid
+              display: 'Grid Field'
+              icon: grid
+              localizable: false
+              listable: hidden
+              instructions_position: above
+              visibility: visible
+              hide_display: true
+title: Translations

@@ -3,6 +3,7 @@
 namespace RyanMitchell\StatamicTranslationManager;
 
 use Illuminate\Support\Facades\Route;
+use RyanMitchell\StatamicTranslationManager\Http\Controllers\TranslationController;
 use Statamic\CP\Navigation\Nav;
 use Statamic\Facades\CP\Nav as NavAPI;
 use Statamic\Facades\Permission;
@@ -22,13 +23,20 @@ class ServiceProvider extends AddonServiceProvider
         $this->registerRoutes();
     }
     
+    public function register()
+    {
+        $this->app->singleton('translation-manager', function () {
+            return app(TranslationsManager::class);
+        });
+    }
+    
     private function bootNav()
     {
         NavAPI::extend(fn (Nav $nav) => $nav
-            ->content(__('Translation Manager'))
+            ->content(__('Translations'))
             ->section(__('Tools'))
             ->can('manage translations')
-            ->route('statamic.translation_manager.edit')
+            ->route('translation-manager.index')
             ->icon('content-writing')
         );
     }
@@ -36,14 +44,15 @@ class ServiceProvider extends AddonServiceProvider
     private function bootPermissions()
     {
         Permission::register('manage translations')
-            ->label(__('Use Translation Manager'));
+            ->label(__('Manage Translations'));
     }
 
     private function registerRoutes()
     {
-        Statamic::pushCpRoutes(fn () => Route::name('statamic.translation_manager.')->group(function () {
-            Route::get('edit', [TranslationController::class, 'edit'])->name('edit');
-            Route::post('update', [TranslationController::class, 'update'])->name('update');
+        Statamic::pushCpRoutes(fn () => Route::name('translation-manager.')->prefix('translations')->group(function () {
+            Route::get('/', [TranslationController::class, 'index'])->name('index');
+            Route::get('{locale}/edit', [TranslationController::class, 'edit'])->name('edit');
+            Route::post('{locale}/update', [TranslationController::class, 'update'])->name('update');
         }));
     }
 }

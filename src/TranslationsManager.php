@@ -8,11 +8,11 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-//use Outhebox\LaravelTranslations\Models\Translation;
+use RyanMitchell\StatamicTranslationManager\Events\TranslationsSaved;
 
 class TranslationsManager
 {
-    private array $translations = [];
+    private array $translations;
 
     protected Filesystem $filesystem;
 
@@ -34,96 +34,87 @@ class TranslationsManager
                 continue;
             }
 
-            $locales->push(basename($dir));
+            $locales->push([
+                'name' => basename($dir)
+            ]);
         }
 
         return $locales->toArray();
     }
 
-    public function getTranslations(string $local): array
+    public function getTranslations(): array
     {
-        if (blank($local)) {
-            $local = config('translations.source_language');
-        }
-
-        collect($this->filesystem->allFiles(lang_path($local)))
+        collect($this->filesystem->allFiles(lang_path()))
             ->filter(function ($file) {
-                return ! in_array($file->getFilename(), config('translations.exclude_files'));
+                return ! in_array($file->getFilename(), config('statamic-translations.exclude_files', []));
             })
             ->filter(function ($file) {
                 return $this->filesystem->extension($file) == 'php' || $this->filesystem->extension($file) == 'json';
             })
             ->each(function ($file) {
                 try {
+                    $locale = $file->getRelativePath();
                     if ($this->filesystem->extension($file) == 'php') {
-                        $this->translations[$file->getFilename()] = $this->filesystem->getRequire($file->getPathname());
+                        $strings = array_dot($this->filesystem->getRequire($file->getPathname()));
                     }
 
                     if ($this->filesystem->extension($file) == 'json') {
-                        $this->translations[$file->getFilename()] = json_decode($this->filesystem->get($file), true);
+                        $strings = json_decode($this->filesystem->get($file), true);
+                        $strings = Arr::dot($strings);
+                    }
+                    
+                    foreach ($strings as $key => $string) {
+                        $this->translations[] = [
+                            'file' => Str::before($file->getFilename(), '.'),
+                            'locale' => $locale,
+                            'key' => $key,
+                            'string' => $string,
+                        ];
                     }
                 } catch (FileNotFoundException $e) {
-                    $this->translations[$file->getFilename()] = [];
+                    //
                 }
             });
 
         return $this->translations;
     }
 
-    public function export(): void
+    public function saveTranslations(string $locale, array $translations): void
     {
-        $translations = Translation::with('phrases')->get();
+        foreach ($translations as $namespace => $phrases) {
+            $phrases = collect($phrases)
+                ->mapWithKeys(fn ($phrase) => [$phrase['key'] => $phrase['string']])
+                ->all();
+                            
+            $phrases = Arr::undot($phrases);
 
-        foreach ($translations as $translation) {
-            $phrasesTree = $this->buildPhrasesTree($translation->phrases()->with('file')->whereNotNull('value')->get(), $translation->language->code);
+            $path = lang_path("{$locale}/{$namespace}.json");
 
-            foreach ($phrasesTree as $locale => $groups) {
-                foreach ($groups as $file => $phrases) {
-                    $path = lang_path("$locale/$file");
+            if (! $this->filesystem->isDirectory(dirname($path))) {
+                $this->filesystem->makeDirectory(dirname($path), 0755, true);
+            }
 
-                    if (! $this->filesystem->isDirectory(dirname($path))) {
-                        $this->filesystem->makeDirectory(dirname($path), 0755, true);
-                    }
-
-                    if (! $this->filesystem->exists($path)) {
-                        $this->filesystem->put($path, "<?php\n\nreturn [\n\n]; ".PHP_EOL);
-                    }
-
-                    if ($this->filesystem->extension($path) == 'php') {
-                        try {
-                            $this->filesystem->put($path, "<?php\n\nreturn ".VarExporter::export($phrases, VarExporter::TRAILING_COMMA_IN_ARRAY).';'.PHP_EOL);
-                        } catch (ExportException $e) {
-                            logger()->error($e->getMessage());
-                        }
-                    }
-
-                    if ($this->filesystem->extension($path) == 'json') {
-                        $this->filesystem->put($path, json_encode($phrases, JSON_PRETTY_PRINT));
-                    }
+            if (! $this->filesystem->exists($path)) {
+                $path = lang_path("{$locale}/{$namespace}.php");
+                
+                if (! $this->filesystem->exists($path)) {
+                    $this->filesystem->put($path, "<?php\n\nreturn [\n\n]; ".PHP_EOL);
                 }
             }
+
+            if ($this->filesystem->extension($path) == 'php') {
+                try {
+                    $this->filesystem->put($path, "<?php\n\nreturn ".VarExporter::export($phrases, VarExporter::TRAILING_COMMA_IN_ARRAY).';'.PHP_EOL);
+                } catch (ExportException $e) {
+                    logger()->error($e->getMessage());
+                }
+            }
+
+            if ($this->filesystem->extension($path) == 'json') {
+                $this->filesystem->put($path, json_encode($phrases, JSON_PRETTY_PRINT));
+            }
+            
+            TranslationsSaved::dispatch($locale, $namespace, $translations);
         }
-    }
-
-    protected function buildPhrasesTree($phrases, $locale): array
-    {
-        $tree = [];
-
-        foreach ($phrases as $phrase) {
-            Arr::set($tree[$locale][$phrase->file->file_name], $phrase->key, $phrase->value);
-        }
-
-        return $tree;
-    }
-
-    public function getPhraseParameters(string $phrase): ?array
-    {
-        preg_match_all('/(?<!\w):(\w+)/', $phrase, $matches);
-
-        if (empty($matches[1])) {
-            return null;
-        }
-
-        return $matches[1];
     }
 }
