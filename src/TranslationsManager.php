@@ -100,7 +100,7 @@ class TranslationsManager
             ->mapWithKeys(fn ($trans) => [$trans['key'] => $trans['string']])
             ->all();
 
-        $translations = collect(array_merge($existingTranslations, $translations));
+        $translations = collect($existingTranslations + $translations);
 
         $phrasesToPreventUndotting = $translations->filter($this->ignoreUndottingFilter);
 
@@ -134,7 +134,7 @@ class TranslationsManager
 
             $phrases = Arr::undot($phrases->except($phrasesToPreventUndotting->keys())->all());
 
-            $phrases = array_merge($phrases, $phrasesToPreventUndotting->all());
+            $phrases = $phrases + $phrasesToPreventUndotting->all();
 
             ksort($phrases);
 
