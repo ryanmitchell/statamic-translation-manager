@@ -4,6 +4,7 @@ namespace RyanMitchell\StatamicTranslationManager;
 
 use Brick\VarExporter\ExportException;
 use Brick\VarExporter\VarExporter;
+use Closure;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
@@ -15,6 +16,7 @@ class TranslationsManager
     private array $translations;
 
     protected Filesystem $filesystem;
+    protected Closure $ignoreUndottingFilter;
 
     public function __construct(Filesystem $filesystem)
     {
@@ -23,6 +25,10 @@ class TranslationsManager
         if (! $this->filesystem->exists(lang_path())) {
             $this->filesystem->makeDirectory(lang_path());
         }
+        
+        $this->ignoreUndottingFilter = function ($phrase, $key) {
+            return str_contains($key, '.') == false || str_contains($key, ' ') || str_contains($key, '://');
+        };
     }
 
     public function getLocales(): array
@@ -91,14 +97,14 @@ class TranslationsManager
             ->where('locale', $locale)
             ->mapWithKeys(fn ($trans) => [$trans['key'] => $trans['string']])
             ->all();
-                        
-        $translations = array_merge($existingTranslations, $translations);  
-                          
-        $translations = collect($translations)  
-            ->mapWithKeys(fn ($string, $key) => [(str_contains($key, '.') && ! (str_contains($key, ' ') || str_contains($key, '://')) ? $key : '__default.'.$key) => $string])
-            ->all();
-        
-        $translations = Arr::undot($translations);
+                                                
+        $translations = collect(array_merge($existingTranslations, $translations));  
+                
+        $phrasesToPreventUndotting = $translations->filter($this->ignoreUndottingFilter);
+                
+        $translations = Arr::undot($translations->except($phrasesToPreventUndotting->keys())->all());
+
+        $translations['__default'] = $phrasesToPreventUndotting->all();
 
         foreach ($translations as $namespace => $strings) {
             $string = Arr::dot($strings);
@@ -112,7 +118,7 @@ class TranslationsManager
 
             $translations[$namespace] = $newStrings;
         }
-                
+                                
         $this->saveTranslations($locale, $translations);
     }
 
@@ -120,11 +126,16 @@ class TranslationsManager
     {
         foreach ($translations as $namespace => $phrases) {
             $phrases = collect($phrases)
-                ->mapWithKeys(fn ($phrase) => [$phrase['key'] => $phrase['string']])
-                ->all();
-                            
-            $phrases = Arr::undot($phrases);
-
+                ->mapWithKeys(fn ($phrase) => [$phrase['key'] => $phrase['string']]);
+                                
+            $phrasesToPreventUndotting = $phrases->filter($this->ignoreUndottingFilter);
+                        
+            $phrases = Arr::undot($phrases->except($phrasesToPreventUndotting->keys())->all());
+            
+            $phrases = array_merge($phrases, $phrasesToPreventUndotting->all());
+            
+            ksort($phrases);
+            
             $filepath = $namespace == '__default' ? $locale : "{$locale}/{$namespace}";
 
             $path = lang_path("{$filepath}.json");

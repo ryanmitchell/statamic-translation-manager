@@ -183,7 +183,8 @@ class BlueprintController extends Controller
             }
 
             // TODO: add a pipeline here with a DTO
-            // so 'hooks' can be provided to check custom fieldtypes or add additional functionality
+            // so 'hooks' can be provided to check custom fieldtypes
+            // or add additional functionality
         }
 
         return $missing;
