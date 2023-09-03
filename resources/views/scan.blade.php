@@ -18,7 +18,7 @@
         <div class="flex justify-between mb-6">
             <div>
                 <h1>{{ $locale }}</h1>
-                <h5 class="date">{{ count($strings) }} missing translations</h5>
+                <h5 class="date">{{ trans_choice(':count missing translation|:count missing translations', count($strings), ['count' => count($strings)]) }}</h5>
             </div>
 
             <div>
