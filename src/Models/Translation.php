@@ -4,6 +4,7 @@ namespace RyanMitchell\StatamicTranslationManager\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use RyanMitchell\StatamicTranslationManager\Facades;
+use Statamic\Facades\Blink;
 use Sushi\Sushi;
 
 class Translation extends Model
@@ -21,11 +22,13 @@ class Translation extends Model
 
     public function getRows()
     {
-        return Facades\TranslationManager::getTranslations();
+        return Blink::once('translation.strings', function () {
+            return Facades\TranslationManager::getTranslations();
+        });
     }
 
     protected function sushiShouldCache()
     {
-        return true;
+        return false;
     }
 }

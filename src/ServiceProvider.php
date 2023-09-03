@@ -3,7 +3,7 @@
 namespace RyanMitchell\StatamicTranslationManager;
 
 use Illuminate\Support\Facades\Route;
-use RyanMitchell\StatamicTranslationManager\Http\Controllers\TranslationController;
+use RyanMitchell\StatamicTranslationManager\Http\Controllers;
 use Statamic\CP\Navigation\Nav;
 use Statamic\Facades\CP\Nav as NavAPI;
 use Statamic\Facades\Permission;
@@ -15,9 +15,9 @@ class ServiceProvider extends AddonServiceProvider
     public function boot()
     {
         parent::boot();
-            
+
         $this->loadViewsFrom(__DIR__.'/views', 'statamic-translation-manager');
-        
+
         $this->publishes([
             __DIR__.'/../config/statamic-translations.php' => config_path('statamic-translations.php')
         ], 'config');
@@ -26,16 +26,16 @@ class ServiceProvider extends AddonServiceProvider
         $this->bootPermissions();
         $this->registerRoutes();
     }
-    
+
     public function register()
     {
         $this->app->singleton('translation-manager', function () {
             return app(TranslationsManager::class);
         });
-        
+
         $this->mergeConfigFrom(__DIR__.'/../config/statamic-translations.php', 'statamic-translations');
     }
-    
+
     private function bootNav()
     {
         NavAPI::extend(fn (Nav $nav) => $nav
@@ -56,9 +56,15 @@ class ServiceProvider extends AddonServiceProvider
     private function registerRoutes()
     {
         Statamic::pushCpRoutes(fn () => Route::name('translation-manager.')->prefix('translations')->group(function () {
-            Route::get('/', [TranslationController::class, 'index'])->name('index');
-            Route::get('{locale}/edit', [TranslationController::class, 'edit'])->name('edit');
-            Route::post('{locale}/update', [TranslationController::class, 'update'])->name('update');
+            Route::get('/', [Controllers\TranslationController::class, 'index'])->name('index');
+            Route::get('/locale/{locale}/edit', [Controllers\TranslationController::class, 'edit'])->name('edit');
+            Route::post('locale/{locale}/update', [Controllers\TranslationController::class, 'update'])->name('update');
+
+            Route::get('/blueprints', [Controllers\BlueprintController::class, 'index'])->name('blueprints');
+            Route::get('/blueprints/{locale}/add', [Controllers\BlueprintController::class, 'add'])->name('blueprints.add');
+
+            Route::get('/templates', [Controllers\TemplateController::class, 'index'])->name('templates');
+            Route::get('/templates/{locale}/add', [Controllers\TemplateController::class, 'add'])->name('templates.add');
         }));
     }
 }

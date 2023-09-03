@@ -6,9 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use RyanMitchell\StatamicTranslationManager\Facades\TranslationManager;
 use RyanMitchell\StatamicTranslationManager\Models;
-use Statamic\Facades\Blueprint as BlueprintAPI;
-use Statamic\Facades\Path;
-use Statamic\Facades\YAML;
+use Statamic\Facades;
 use Statamic\Fields\Blueprint;
 use Statamic\Http\Controllers\Controller;
 
@@ -59,9 +57,9 @@ class TranslationController extends Controller
 
     private function buildBlueprint(array $namespaces): Blueprint
     {
-        $path = Path::assemble(__DIR__.'/../../../', 'resources', 'blueprints', 'manager.yaml');
+        $path = Facades\Path::assemble(__DIR__.'/../../../', 'resources', 'blueprints', 'manager.yaml');
 
-        $yaml = YAML::file($path)->parse();
+        $yaml = Facades\YAML::file($path)->parse();
 
         $tab = $yaml['tabs']['main'];
         unset($yaml['tabs']['main']);
@@ -73,10 +71,10 @@ class TranslationController extends Controller
             $yaml['tabs']['tab_'.$namespace] = $newTab;
         }
 
-        return BlueprintAPI::make()->setContents($yaml);
+        return Facades\Blueprint::make()->setContents($yaml);
     }
 
-    private function getDataForLocale($locale)
+    private function getDataForLocale($locale): array
     {
         $translations = Models\Translation::where('locale', $locale)
             ->orderBy('key')

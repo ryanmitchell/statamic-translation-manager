@@ -55,7 +55,7 @@ class TranslationsManager
                 try {
                     $locale = $file->getRelativePath();
                     if ($this->filesystem->extension($file) == 'php') {
-                        $strings = array_dot($this->filesystem->getRequire($file->getPathname()));
+                        $strings = Arr::dot($this->filesystem->getRequire($file->getPathname()));
                     }
 
                     if ($this->filesystem->extension($file) == 'json') {
@@ -83,6 +83,37 @@ class TranslationsManager
             });
 
         return $this->translations;
+    }
+    
+    public function addTranslations(string $locale, array $translations)
+    {
+        $existingTranslations = collect($this->getTranslations())
+            ->where('locale', $locale)
+            ->mapWithKeys(fn ($trans) => [$trans['key'] => $trans['string']])
+            ->all();
+                        
+        $translations = array_merge($existingTranslations, $translations);  
+                          
+        $translations = collect($translations)  
+            ->mapWithKeys(fn ($string, $key) => [(str_contains($key, '.') && ! (str_contains($key, ' ') || str_contains($key, '://')) ? $key : '__default.'.$key) => $string])
+            ->all();
+        
+        $translations = Arr::undot($translations);
+
+        foreach ($translations as $namespace => $strings) {
+            $string = Arr::dot($strings);
+            $newStrings = [];
+            foreach ($strings as $key => $string) {
+                $newStrings[] = [
+                    'key' => $key,
+                    'string' => $string,
+                ];
+            }
+
+            $translations[$namespace] = $newStrings;
+        }
+                
+        $this->saveTranslations($locale, $translations);
     }
 
     public function saveTranslations(string $locale, array $translations): void
