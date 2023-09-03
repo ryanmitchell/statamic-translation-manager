@@ -54,7 +54,9 @@ class TemplateController extends Controller
 
         $missingTranslations = [];
         foreach ($translationStrings as $string) {
-            $missingTranslations = array_merge($missingTranslations, $this->checkStringInLocales($string));
+            if ($string) {
+                $missingTranslations = array_merge($missingTranslations, $this->checkStringInLocales($string));
+            }
         }
 
         $missingTranslations = collect($missingTranslations)

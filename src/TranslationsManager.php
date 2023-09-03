@@ -21,11 +21,11 @@ class TranslationsManager
     public function __construct(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;
-        
+
         if (! $this->filesystem->exists(lang_path())) {
             $this->filesystem->makeDirectory(lang_path());
         }
-        
+
         $this->ignoreUndottingFilter = function ($phrase, $key) {
             return str_contains($key, '.') == false || str_contains($key, ' ') || str_contains($key, '://');
         };
@@ -70,10 +70,10 @@ class TranslationsManager
                         $strings = json_decode($this->filesystem->get($file), true);
                         $strings = Arr::dot($strings);
                     }
-                    
+
                     foreach ($strings as $key => $string) {
                         $namespace = Str::before($file->getFilename(), '.');
-                        
+
                         if (! in_array($namespace, config('statamic-translations.exclude_namespaces', []))) {
                             if (is_string($string)) {
                                 $this->translations[] = [
@@ -92,18 +92,18 @@ class TranslationsManager
 
         return $this->translations;
     }
-    
+
     public function addTranslations(string $locale, array $translations)
     {
         $existingTranslations = collect($this->getTranslations())
             ->where('locale', $locale)
             ->mapWithKeys(fn ($trans) => [$trans['key'] => $trans['string']])
             ->all();
-                                                
-        $translations = collect(array_merge($existingTranslations, $translations));  
-                
+
+        $translations = collect(array_merge($existingTranslations, $translations));
+
         $phrasesToPreventUndotting = $translations->filter($this->ignoreUndottingFilter);
-                
+
         $translations = Arr::undot($translations->except($phrasesToPreventUndotting->keys())->all());
 
         $translations['__default'] = $phrasesToPreventUndotting->all();
@@ -120,7 +120,7 @@ class TranslationsManager
 
             $translations[$namespace] = $newStrings;
         }
-                                
+
         $this->saveTranslations($locale, $translations);
     }
 
@@ -129,15 +129,15 @@ class TranslationsManager
         foreach ($translations as $namespace => $phrases) {
             $phrases = collect($phrases)
                 ->mapWithKeys(fn ($phrase) => [$phrase['key'] => $phrase['string']]);
-                                
+
             $phrasesToPreventUndotting = $phrases->filter($this->ignoreUndottingFilter);
-                        
+
             $phrases = Arr::undot($phrases->except($phrasesToPreventUndotting->keys())->all());
-            
+
             $phrases = array_merge($phrases, $phrasesToPreventUndotting->all());
-            
+
             ksort($phrases);
-            
+
             $filepath = $namespace == '__default' ? $locale : "{$locale}/{$namespace}";
 
             $path = lang_path("{$filepath}.json");
@@ -148,7 +148,7 @@ class TranslationsManager
 
             if (! $this->filesystem->exists($path)) {
                 $path = lang_path("{$filepath}.php");
-                
+
                 if (! $this->filesystem->exists($path)) {
                     $this->filesystem->put($path, "<?php\n\nreturn [\n\n]; ".PHP_EOL);
                 }
@@ -165,7 +165,7 @@ class TranslationsManager
             if ($this->filesystem->extension($path) == 'json') {
                 $this->filesystem->put($path, json_encode($phrases, JSON_PRETTY_PRINT));
             }
-            
+
             TranslationsSaved::dispatch($locale, $namespace, $translations);
         }
     }
