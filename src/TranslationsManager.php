@@ -40,9 +40,13 @@ class TranslationsManager
                 continue;
             }
 
-            $locales->push([
-                'name' => basename($dir)
-            ]);
+            $name = basename($dir);
+
+            if (! in_array($name, config('statamic-translations.exclude_locales', []))) {
+                $locales->push([
+                    'name' => $name,
+                ]);
+            }
         }
 
         return $locales->toArray();
