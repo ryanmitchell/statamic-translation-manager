@@ -50,6 +50,8 @@ class TranslationsManager
 
     public function getTranslations(): array
     {
+        $this->translations = [];
+
         collect($this->filesystem->allFiles(lang_path()))
             ->filter(function ($file) {
                 return ! in_array($file->getFilename(), config('statamic-translations.exclude_files', []));

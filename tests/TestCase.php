@@ -30,7 +30,7 @@ class TestCase extends OrchestraTestCase
         parent::getEnvironmentSetUp($app);
 
         $app->make(Manifest::class)->manifest = [
-            'ryanmitchell/statamic-translation-manaager' => [
+            'ryanmitchell/statamic-translation-manager' => [
                 'id' => 'ryanmitchell/statamic-translation-manaager',
                 'namespace' => 'RyanMitchell\\StatamicTranslationManager',
             ],
@@ -54,5 +54,7 @@ class TestCase extends OrchestraTestCase
 
         // Assume the pro edition within tests
         $app['config']->set('statamic.editions.pro', true);
+
+        $app->useLangPath(__DIR__.'/__fixtures');
     }
 }
