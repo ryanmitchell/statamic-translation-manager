@@ -45,16 +45,18 @@ class AntlersParser
                 $keys = array_merge($keys, $this->locateInterpolatedTranslationKeys($node));
             }
 
-            if (in_array($node->name->name, $this->antlersTranslationTags)) {
-                $keyParam = $this->getParameterByName($node, 'key');
+            if (isset($node->name)) {
+                if (in_array($node->name->name, $this->antlersTranslationTags)) {
+                    $keyParam = $this->getParameterByName($node, 'key');
 
-                if ($keyParam == null || $keyParam->isModifierParameter || $keyParam->isVariableReference) {
-                    $keys[] = $node->name->methodPart;
+                    if ($keyParam == null || $keyParam->isModifierParameter || $keyParam->isVariableReference) {
+                        $keys[] = $node->name->methodPart;
 
-                    continue;
+                        continue;
+                    }
+
+                    $keys[] = $keyParam->value;
                 }
-
-                $keys[] = $keyParam->value;
             }
         }
 
