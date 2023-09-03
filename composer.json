@@ -30,6 +30,11 @@
             "RyanMitchell\\StatamicTranslationManager\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "RyanMitchell\\StatamicTranslationManager\\Tests\\": "tests"
+        }
+    },
     "extra": {
         "statamic": {
             "name": "Translation Manager",
