@@ -174,6 +174,15 @@ class BlueprintController extends Controller
                     $missing = array_merge($missing, $this->findMissingFieldStrings($field['sets'] ?? []));
                 break;
 
+                case 'grid':
+                    $string = Arr::get($field, 'input_label', false);
+                    if ($string) {
+                        $missing = array_merge($missing, $this->checkStringInLocales($string));
+                    }
+
+                    $missing = array_merge($missing, $this->findMissingFieldStrings($field['fields'] ?? []));
+                break;
+
                 case 'revealer':
                     $string = Arr::get($field, 'input_label', false);
                     if ($string) {
