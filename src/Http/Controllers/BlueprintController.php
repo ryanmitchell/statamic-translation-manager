@@ -35,12 +35,12 @@ class BlueprintController extends Controller
 
         $missingTranslations = $this->findMissingStringsInBlueprints()
             ->get($locale)
-            ->mapWithKeys(fn ($trans) => [$trans => $trans])
+            ->mapWithKeys(fn ($trans) => [$trans => ''])
             ->all();
 
         TranslationManager::addTranslations($locale, $missingTranslations);
 
-        session()->flash('success', "Translations added. Look for strings finishing with [$locale].");
+        session()->flash('success', __('Translations added. Look for blank strings'));
 
         return redirect(cp_route('translation-manager.edit', ['locale' => $locale]));
     }
