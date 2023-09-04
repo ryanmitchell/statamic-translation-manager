@@ -168,34 +168,24 @@ class BlueprintController extends Controller
                 }
             }
 
-            switch (Arr::get($field, 'type', 'none')) {
-                case 'bard':
-                case 'replicator':
-                    $missing = array_merge($missing, $this->findMissingFieldStrings($field['sets'] ?? []));
-                break;
+            // grid/revealer
+            if ($string = Arr::get($field, 'input_label', false)) {
+                $missing = array_merge($missing, $this->checkStringInLocales($string));
+            }
 
-                case 'grid':
-                    $string = Arr::get($field, 'input_label', false);
-                    if ($string) {
-                        $missing = array_merge($missing, $this->checkStringInLocales($string));
-                    }
+            // toggle
+            if ($string = Arr::get($field, 'inline_label', false)) {
+                $missing = array_merge($missing, $this->checkStringInLocales($string));
+            }
 
-                    $missing = array_merge($missing, $this->findMissingFieldStrings($field['fields'] ?? []));
-                break;
+            // sometimes sets have fields inside
+            if (isset($field['fields'])) {
+                $missing = array_merge($missing, $this->findMissingFieldStrings($field['fields']));
+            }
 
-                case 'revealer':
-                    $string = Arr::get($field, 'input_label', false);
-                    if ($string) {
-                        $missing = array_merge($missing, $this->checkStringInLocales($string));
-                    }
-                break;
-
-                case 'toggle':
-                    $string = Arr::get($field, 'inline_label', false);
-                    if ($string) {
-                        $missing = array_merge($missing, $this->checkStringInLocales($string));
-                    }
-                break;
+            // sometimes sets and sets in sets
+            if (isset($field['sets'])) {
+                $missing = array_merge($missing, $this->findMissingFieldStrings($field['sets']));
             }
 
             // TODO: add a pipeline here with a DTO
