@@ -4,6 +4,7 @@ namespace RyanMitchell\StatamicTranslationManager\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Lang;
 use KKomelin\TranslatableStringExporter\Core\StringExtractor;
 use RyanMitchell\StatamicTranslationManager\Extractor\TranslationStringExtractor;
 use RyanMitchell\StatamicTranslationManager\Facades\TranslationManager;
@@ -35,7 +36,7 @@ class TemplateController extends Controller
 
         $missingTranslations = $this->findMissingStringsInTemplates()
             ->get($locale)
-            ->mapWithKeys(fn ($trans) => [$trans => $trans." [$locale]"])
+            ->mapWithKeys(fn ($trans) => [$trans => $trans])
             ->all();
 
         TranslationManager::addTranslations($locale, $missingTranslations);
@@ -90,6 +91,6 @@ class TemplateController extends Controller
 
     private function hasTranslation($string, $locale): bool
     {
-        return $string !== __($string, [], $locale);
+        return Lang::has($string."", $locale);
     }
 }

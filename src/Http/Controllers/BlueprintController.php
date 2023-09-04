@@ -4,6 +4,7 @@ namespace RyanMitchell\StatamicTranslationManager\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Lang;
 use RyanMitchell\StatamicTranslationManager\Facades\TranslationManager;
 use RyanMitchell\StatamicTranslationManager\Models;
 use Statamic\Facades;
@@ -34,7 +35,7 @@ class BlueprintController extends Controller
 
         $missingTranslations = $this->findMissingStringsInBlueprints()
             ->get($locale)
-            ->mapWithKeys(fn ($trans) => [$trans => $trans." [$locale]"])
+            ->mapWithKeys(fn ($trans) => [$trans => $trans])
             ->all();
 
         TranslationManager::addTranslations($locale, $missingTranslations);
@@ -208,6 +209,6 @@ class BlueprintController extends Controller
 
     private function hasTranslation($string, $locale): bool
     {
-        return $string !== __($string, [], $locale);
+        return Lang::has($string."", $locale);
     }
 }
