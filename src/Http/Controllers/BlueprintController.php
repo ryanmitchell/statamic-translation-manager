@@ -93,6 +93,12 @@ class BlueprintController extends Controller
             })
             ->filter()
         )
+        ->merge(Facades\Fieldset::all()
+            ->map(function ($fieldset) {
+                return $this->findMissingFieldStrings($fieldset->fields()->all()->toArray());
+            })
+            ->filter()
+        )
         ->merge([$this->checkBlueprint(Facades\User::make()->blueprint())])
         ->merge([$this->checkBlueprint(Facades\UserGroup::make()->blueprint())]);
 
