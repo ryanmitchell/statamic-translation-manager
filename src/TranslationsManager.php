@@ -101,7 +101,7 @@ class TranslationsManager
     {
         $existingTranslations = collect($this->getTranslations())
             ->where('locale', $locale)
-            ->mapWithKeys(fn ($trans) => [$trans['key'] => $trans['string']])
+            ->mapWithKeys(fn ($trans) => [($trans['file'] != '__default' ? $trans['file'].'.' : '').$trans['key'] => $trans['string']])
             ->all();
 
         $translations = collect($existingTranslations + $translations);
