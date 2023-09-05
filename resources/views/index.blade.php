@@ -7,7 +7,7 @@
         <h1>{{ __('Translation Manager') }}</h1>
     </header>
 
-    <h3 class="little-heading pl-0 mb-2">{{ __('Manage Languages') }}</h3>
+    <h3 class="little-heading pl-0 mb-2">{{ __('Manage translations') }}</h3>
     <div class="card p-0 mb-4">
         <table class="data-table">
             @foreach ($locales as $locale)
@@ -23,7 +23,7 @@
         </table>
     </div>
 
-    <h3 class="little-heading pl-0 mb-2">{{ __('Integrity Checks') }}</h3>
+    <h3 class="little-heading pl-0 mb-2">{{ __('Check for missing translations') }}</h3>
     <div class="card p-4 content">
         <div class="flex flex-wrap">
                 <a href="{{ cp_route('translation-manager.blueprints') }}" class="w-full lg:w-1/2 p-4 md:flex items-start hover:bg-gray-200 rounded-md group">
