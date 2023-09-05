@@ -16,11 +16,17 @@ class ServiceProvider extends AddonServiceProvider
     {
         parent::boot();
 
-        $this->loadViewsFrom(__DIR__.'/views', 'statamic-translation-manager');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'statamic-translation-manager');
 
         $this->publishes([
             __DIR__.'/../config/statamic-translations.php' => config_path('statamic-translations.php')
         ], 'config');
+
+        $this->loadJsonTranslationsFrom(__DIR__.'/../resources/lang', 'statamic-translation-manager');
+
+        $this->publishes([
+            __DIR__.'/../resources/lang' => $this->app->langPath('vendor/statamic-translation-manager'),
+        ]);
 
         $this->bootNav();
         $this->bootPermissions();

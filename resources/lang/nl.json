@@ -1,0 +1,17 @@
+{
+    "Blueprint Scan": "Blueprintscan",
+    "Check for missing translations": "Controleer op missende vertalingen",
+    "Manage translations": "Beheer vertalingen",
+    "Manage Translations": "Beheer vertalingen",
+    "Manage Translation: :locale": "Beheer de vertalingen in :locale",
+    "No missing translations! You're doing great!": "Er zijn geen missende vertalingen.",
+    "Scan blueprints": "Scan blueprints",
+    "Scan templates": "Scan templates",
+    "Scan your blueprints for missing strings and add them to your language packs": "Scan blueprints op missende strings en voeg ze toe aan je taalbestanden.",
+    "Scan your templates for missing strings in { trans } tags and add them to your language packs": "Scan templates op missende strings in `{ trans }` tags en voeg ze toe aan je taalbestanden.",
+    "Template Scan": "Templatescan",
+    "Tools": "Gereedschappen",
+    "Translations": "Vertalingen",
+    "Translation Manager": "Vertalingsmanager",
+    "Translations added. Look for blank strings": "Vertalingen toegevoegd. Nieuwe vertalingen zijn standaard lege strings."
+}
