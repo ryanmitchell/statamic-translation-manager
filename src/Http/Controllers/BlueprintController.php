@@ -12,7 +12,7 @@ use Statamic\Http\Controllers\Controller;
 
 class BlueprintController extends Controller
 {
-    private array $commonKeys = ['display', 'instructions', 'placeholder', 'append', 'prepend'];
+    private array $commonKeys = ['display', 'instructions', 'placeholder', 'append', 'prepend', 'input_label', 'inline_label', 'add_row'];
     private $locales;
 
     public function index(Request $request)
@@ -166,16 +166,6 @@ class BlueprintController extends Controller
                 foreach ($options as $string) {
                     $missing = array_merge($missing, $this->checkStringInLocales($string));
                 }
-            }
-
-            // grid/revealer
-            if ($string = Arr::get($field, 'input_label', false)) {
-                $missing = array_merge($missing, $this->checkStringInLocales($string));
-            }
-
-            // toggle
-            if ($string = Arr::get($field, 'inline_label', false)) {
-                $missing = array_merge($missing, $this->checkStringInLocales($string));
             }
 
             // sometimes sets have fields inside
