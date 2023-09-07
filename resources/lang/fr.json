@@ -1,0 +1,17 @@
+{
+    "Blueprint Scan": "Scan des Blueprints",
+    "Check for missing translations": "Trouver les traductions manquantes",
+    "Manage translations": "Gérer les traductions",
+    "Manage Translations": "Gérer les traductions",
+    "Manage Translation: :locale": "Gérer la traduction pour :locale",
+    "No missing translations! You're doing great!": "Toutes les traductions ont été effectuées.",
+    "Scan blueprints": "Scan des Blueprints",
+    "Scan templates": "Scan des modèles (templates)",
+    "Scan your blueprints for missing strings and add them to your language packs": "Scannez vos Blueprints à la recherche de chaînes manquantes et ajoutez-les à vos packs de langue.",
+    "Scan your templates for missing strings in { trans } tags and add them to your language packs": "Scannez vos modèles (templates) à la recherche de chaînes manquantes dans les balises { trans } et ajoutez-les à vos packs de langue.",
+    "Template Scan": "Scan des Templates",
+    "Tools": "Outils",
+    "Translations": "Traductions",
+    "Translation Manager": "Gestionnaire de traductions",
+    "Translations added. Look for blank strings": "Traductions ajoutées. Recherchez des chaînes vides."
+}
