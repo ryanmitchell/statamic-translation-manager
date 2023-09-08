@@ -149,8 +149,12 @@ class BlueprintController extends Controller
         $missing = [];
 
         foreach ($fields as $field) {
-            if (isset($field['field'])) {
+            if (isset($field['field']) && is_array($field['field'])) {
                 $field = $field['field'];
+            } else {
+                if (isset($field['config']) && is_array($field['config'])) {
+                    $field = $field['config'];
+                }
             }
 
             foreach ($this->commonKeys as $key) {
