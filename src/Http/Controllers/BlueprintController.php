@@ -100,7 +100,13 @@ class BlueprintController extends Controller
             ->filter()
         )
         ->merge([$this->checkBlueprint(Facades\User::make()->blueprint())])
-        ->merge([$this->checkBlueprint(Facades\UserGroup::make()->blueprint())]);
+        ->merge([$this->checkBlueprint(Facades\UserGroup::make()->blueprint())])
+        ->merge(Facades\Site::all()
+            ->map(function ($site) {
+                return $this->checkStringInLocales($site->name());
+            })
+            ->filter()
+        );
 
         $missingTranslations = $missingTranslations
             ->flatten(1)
