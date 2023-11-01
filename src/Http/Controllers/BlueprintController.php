@@ -174,6 +174,9 @@ class BlueprintController extends Controller
             // options: select, checkbox, radio, button group
             if ($options = Arr::get($field, 'options', false)) {
                 foreach ($options as $string) {
+                    if (is_array($string)) {
+                        $string = $string['label'];
+                    }
                     $missing = array_merge($missing, $this->checkStringInLocales($string));
                 }
             }
