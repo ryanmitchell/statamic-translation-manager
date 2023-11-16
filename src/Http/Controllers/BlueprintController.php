@@ -175,9 +175,12 @@ class BlueprintController extends Controller
             if ($options = Arr::get($field, 'options', false)) {
                 foreach ($options as $string) {
                     if (is_array($string)) {
-                        $string = $string['label'];
+                        $string = $string['label'] ?? $string['value'];
                     }
-                    $missing = array_merge($missing, $this->checkStringInLocales($string));
+
+                    if ($string) {
+                        $missing = array_merge($missing, $this->checkStringInLocales($string));
+                    }
                 }
             }
 
