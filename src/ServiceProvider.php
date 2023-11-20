@@ -3,6 +3,7 @@
 namespace RyanMitchell\StatamicTranslationManager;
 
 use Illuminate\Support\Facades\Route;
+use RyanMitchell\StatamicTranslationManager\Events\TranslationsSaved;
 use RyanMitchell\StatamicTranslationManager\Http\Controllers;
 use Statamic\CP\Navigation\Nav;
 use Statamic\Facades\CP\Nav as NavAPI;
@@ -30,6 +31,7 @@ class ServiceProvider extends AddonServiceProvider
 
         $this->bootNav();
         $this->bootPermissions();
+        $this->bootListeners();
         $this->registerRoutes();
     }
 
@@ -57,6 +59,12 @@ class ServiceProvider extends AddonServiceProvider
     {
         Permission::register('manage translations')
             ->label(__('Manage Translations'));
+    }
+
+    private function bootListeners()
+    {
+        \Statamic\Facades\Git::listen(TranslationsSaved::class);
+
     }
 
     private function registerRoutes()
