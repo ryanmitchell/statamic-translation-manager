@@ -63,6 +63,10 @@ class ServiceProvider extends AddonServiceProvider
 
     private function bootListeners()
     {
+        if (! config('statamic.git.enabled')) {
+            return;
+        }
+        
         \Statamic\Facades\Git::listen(TranslationsSaved::class);
 
     }
