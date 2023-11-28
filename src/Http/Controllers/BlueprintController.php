@@ -54,7 +54,7 @@ class BlueprintController extends Controller
                         return $this->checkBlueprint($blueprint);
                     })
                     ->filter()
-                    ->merge($collection->title());
+                    ->push($collection->title());
             })
             ->flatten(1)
             ->filter()
@@ -66,7 +66,7 @@ class BlueprintController extends Controller
                         return $this->checkBlueprint($blueprint);
                     })
                     ->filter()
-                    ->merge($taxonomy->title());
+                    ->push($taxonomy->title());
             })
             ->flatten(1)
             ->filter()
