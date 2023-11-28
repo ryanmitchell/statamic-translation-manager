@@ -53,7 +53,8 @@ class BlueprintController extends Controller
                     ->map(function($blueprint) {
                         return $this->checkBlueprint($blueprint);
                     })
-                    ->filter();
+                    ->filter()
+                    ->merge($collection->title());
             })
             ->flatten(1)
             ->filter()
@@ -64,32 +65,33 @@ class BlueprintController extends Controller
                     ->map(function($blueprint) {
                         return $this->checkBlueprint($blueprint);
                     })
-                    ->filter();
+                    ->filter()
+                    ->merge($taxonomy->title());
             })
             ->flatten(1)
             ->filter()
         )
         ->merge(Facades\Nav::all()
             ->map(function ($nav) {
-                return $this->checkBlueprint($nav->blueprint());
+                return array_merge($this->checkBlueprint($nav->blueprint()), [$nav->title()]);
             })
             ->filter()
         )
         ->merge(Facades\GlobalSet::all()
             ->map(function ($set) {
-                return $this->checkBlueprint($set->blueprint());
+                return array_merge($this->checkBlueprint($set->blueprint()), [$nav->title()]);
             })
             ->filter()
         )
         ->merge(Facades\AssetContainer::all()
             ->map(function ($container) {
-                return $this->checkBlueprint($container->blueprint());
+                return array_merge($this->checkBlueprint($container->blueprint()), [$nav->title()]);
             })
             ->filter()
         )
         ->merge(Facades\Form::all()
             ->map(function ($form) {
-                return $this->checkBlueprint($form->blueprint());
+                return array_merge($this->checkBlueprint($form->blueprint()), [$nav->title()]);
             })
             ->filter()
         )
