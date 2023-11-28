@@ -79,19 +79,19 @@ class BlueprintController extends Controller
         )
         ->merge(Facades\GlobalSet::all()
             ->map(function ($set) {
-                return array_merge($this->checkBlueprint($set->blueprint()), [$nav->title()]);
+                return array_merge($this->checkBlueprint($set->blueprint()), [$set->title()]);
             })
             ->filter()
         )
         ->merge(Facades\AssetContainer::all()
             ->map(function ($container) {
-                return array_merge($this->checkBlueprint($container->blueprint()), [$nav->title()]);
+                return array_merge($this->checkBlueprint($container->blueprint()), [$container->title()]);
             })
             ->filter()
         )
         ->merge(Facades\Form::all()
             ->map(function ($form) {
-                return array_merge($this->checkBlueprint($form->blueprint()), [$nav->title()]);
+                return array_merge($this->checkBlueprint($form->blueprint()), [$form->title()]);
             })
             ->filter()
         )
