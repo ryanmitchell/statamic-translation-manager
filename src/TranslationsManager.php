@@ -8,6 +8,7 @@ use Closure;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use RyanMitchell\StatamicTranslationManager\Events\TranslationsSaved;
 
@@ -33,6 +34,16 @@ class TranslationsManager
 
     public function getLocales(): array
     {
+        return $this->getLocalesFromFolders()
+            ->merge($this->getLocalesFromRootFiles())
+            ->filter()
+            ->unique()
+            ->sort()
+            ->toArray();
+    }
+
+    public function getLocalesFromFolders(): Collection
+    {
         $locales = collect();
 
         foreach ($this->filesystem->directories(lang_path()) as $dir) {
@@ -49,7 +60,24 @@ class TranslationsManager
             }
         }
 
-        return $locales->toArray();
+        return $locales;
+    }
+
+    public function getLocalesFromRootFiles(): Collection
+    {
+        $locales = collect();
+
+        foreach ($this->filesystem->files(lang_path()) as $file) {
+            $name = pathinfo($file, PATHINFO_FILENAME);
+
+            if (! in_array($name, config('statamic-translations.exclude_locales', []))) {
+                $locales->push([
+                    'name' => $name,
+                ]);
+            }
+        }
+
+        return $locales;
     }
 
     public function getTranslations(): array
