@@ -33,6 +33,14 @@ class TranslationsManager
 
     public function getLocales(): array
     {
+        return collect()
+            ->merge($this->getLocalesFromFolders())
+            ->merge($this->getLocalesFromRootFiles())
+            ->toArray();
+    }
+
+    public function getLocalesFromFolders(): array
+    {
         $locales = collect();
 
         foreach ($this->filesystem->directories(lang_path()) as $dir) {
@@ -48,7 +56,24 @@ class TranslationsManager
                 ]);
             }
         }
+        
+        return $locales->toArray();
+    }
 
+    public function getLocalesFromRootFiles(): array
+    {
+        $locales = collect();
+
+        foreach ($this->filesystem->files(lang_path()) as $file) {
+            $name = pathinfo($file, PATHINFO_FILENAME);
+
+            if (! in_array($name, config('statamic-translations.exclude_locales', []))) {
+                $locales->push([
+                    'name' => $name,
+                ]);
+            }
+        }
+        
         return $locales->toArray();
     }
 
