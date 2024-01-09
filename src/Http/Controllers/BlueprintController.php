@@ -54,7 +54,7 @@ class BlueprintController extends Controller
                         return $this->checkBlueprint($blueprint);
                     })
                     ->filter()
-                    ->push($collection->title());
+                    ->push($this->checkStringInLocales($collection->title()));
             })
             ->flatten(1)
             ->filter()
@@ -66,32 +66,32 @@ class BlueprintController extends Controller
                         return $this->checkBlueprint($blueprint);
                     })
                     ->filter()
-                    ->push($taxonomy->title());
+                    ->push($this->checkStringInLocales($taxonomy->title()));
             })
             ->flatten(1)
             ->filter()
         )
         ->merge(Facades\Nav::all()
             ->map(function ($nav) {
-                return array_merge($this->checkBlueprint($nav->blueprint()), [$nav->title()]);
+                return array_merge($this->checkBlueprint($nav->blueprint()), $this->checkStringInLocales($nav->title()));
             })
             ->filter()
         )
         ->merge(Facades\GlobalSet::all()
             ->map(function ($set) {
-                return array_merge($this->checkBlueprint($set->blueprint()), [$set->title()]);
+                return array_merge($this->checkBlueprint($set->blueprint()), $this->checkStringInLocales($set->title()));
             })
             ->filter()
         )
         ->merge(Facades\AssetContainer::all()
             ->map(function ($container) {
-                return array_merge($this->checkBlueprint($container->blueprint()), [$container->title()]);
+                return array_merge($this->checkBlueprint($container->blueprint()), $this->checkStringInLocales($container->title()));
             })
             ->filter()
         )
         ->merge(Facades\Form::all()
             ->map(function ($form) {
-                return array_merge($this->checkBlueprint($form->blueprint()), [$form->title()]);
+                return array_merge($this->checkBlueprint($form->blueprint()), $this->checkStringInLocales($form->title()));
             })
             ->filter()
         )
