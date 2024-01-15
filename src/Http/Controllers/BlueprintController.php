@@ -22,7 +22,7 @@ class BlueprintController extends Controller
         $missingTranslations = $this->findMissingStringsInBlueprints();
 
         return view('statamic-translation-manager::scan', [
-            'title' => __('Blueprint Scan'),
+            'title' => __('statamic-translation-manager::default.blueprint_scan'),
             'edit_route' => 'translation-manager.blueprints.add',
             'locales' => Models\Language::all(),
             'missing' => $missingTranslations,
@@ -40,7 +40,7 @@ class BlueprintController extends Controller
 
         TranslationManager::addTranslations($locale, $missingTranslations);
 
-        session()->flash('success', __('Translations added. Look for blank strings'));
+        session()->flash('success', __('statamic-translation-manager::default.translations_added'));
 
         return redirect(cp_route('translation-manager.edit', ['locale' => $locale]));
     }
@@ -127,6 +127,10 @@ class BlueprintController extends Controller
     private function checkBlueprint($blueprint): array
     {
         $missing = [];
+
+        if (! $blueprint) {
+            return $missing;
+        }
 
         foreach ($blueprint->tabs() as $tab) {
             $tab = $tab->contents();

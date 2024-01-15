@@ -23,7 +23,7 @@ class ServiceProvider extends AddonServiceProvider
             __DIR__.'/../config/statamic-translations.php' => config_path('statamic-translations.php')
         ], 'config');
 
-        $this->loadJsonTranslationsFrom(__DIR__.'/../resources/lang', 'statamic-translation-manager');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'statamic-translation-manager');
 
         $this->publishes([
             __DIR__.'/../resources/lang' => $this->app->langPath('vendor/statamic-translation-manager'),
@@ -47,8 +47,8 @@ class ServiceProvider extends AddonServiceProvider
     private function bootNav()
     {
         NavAPI::extend(fn (Nav $nav) => $nav
-            ->content(__('Translations'))
-            ->section(__('Tools'))
+            ->content(__('statamic-translation-manager::default.translations'))
+            ->section(__('statamic-translation-manager::default.tools'))
             ->can('manage translations')
             ->route('translation-manager.index')
             ->icon('content-writing')
@@ -58,7 +58,7 @@ class ServiceProvider extends AddonServiceProvider
     private function bootPermissions()
     {
         Permission::register('manage translations')
-            ->label(__('Manage Translations'));
+            ->label(__('statamic-translation-manager::default.manage_translations'));
     }
 
     private function bootListeners()
@@ -66,7 +66,7 @@ class ServiceProvider extends AddonServiceProvider
         if (! config('statamic.git.enabled')) {
             return;
         }
-        
+
         \Statamic\Facades\Git::listen(TranslationsSaved::class);
 
     }

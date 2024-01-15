@@ -15,7 +15,7 @@ class TranslationController extends Controller
     public function index(Request $request)
     {
         return view('statamic-translation-manager::index', [
-            'title' => __('Translation Manager'),
+            'title' => __('statamic-translation-manager::default.translation_manager'),
             'locales' => Models\Language::all(),
         ]);
     }
@@ -35,7 +35,7 @@ class TranslationController extends Controller
             'blueprint' => $blueprint->toPublishArray(),
             'meta' => $fields->meta(),
             'route' => cp_route('translation-manager.update', $locale),
-            'title' => __('Manage Translation: :locale', ['locale' => $locale]),
+            'title' => __('statamic-translation-manager::default.manage_translation_locale', ['locale' => $locale]),
             'values' => $fields->values(),
         ]);
     }
