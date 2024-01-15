@@ -23,7 +23,7 @@ class TemplateController extends Controller
         $missingTranslations = $this->findMissingStringsInTemplates();
 
         return view('statamic-translation-manager::scan', [
-            'title' => __('Template Scan'),
+            'title' => __('statamic-translation-manager::default.template_scan'),
             'edit_route' => 'translation-manager.templates.add',
             'locales' => Models\Language::all(),
             'missing' => $missingTranslations,
@@ -41,7 +41,7 @@ class TemplateController extends Controller
 
         TranslationManager::addTranslations($locale, $missingTranslations);
 
-        session()->flash('success', __('Translations added. Look for blank strings'));
+        session()->flash('success', __('statamic-translation-manager::default.translations_added'));
 
         return redirect(cp_route('translation-manager.edit', ['locale' => $locale]));
     }
