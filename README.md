@@ -7,6 +7,7 @@ This package provides an interface for managing language packfiles within Statam
 * PHP 8.2+
 * Laravel 10.0+
 * Statamic 4.0+
+* SQLite
 
 ## Installation
 
