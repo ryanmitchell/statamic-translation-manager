@@ -160,7 +160,7 @@ class TranslationsManager
     {
         foreach ($translations as $namespace => $phrases) {
             $phrases = collect($phrases)
-                ->mapWithKeys(fn ($phrase) => [$phrase['key'] => $phrase['string']]);
+                ->mapWithKeys(fn ($phrase) => [$phrase['key'] => $phrase['string'] ?? '']);
 
             $phrasesToPreventUndotting = $phrases->filter($this->ignoreUndottingFilter);
 
