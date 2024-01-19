@@ -57,4 +57,9 @@ class TestCase extends OrchestraTestCase
 
         $app->useLangPath(__DIR__.'/__fixtures');
     }
+
+    protected function getSampleFilePath($file)
+    {
+        return realpath(dirname(__FILE__)."/samples/{$file}");
+    }
 }
