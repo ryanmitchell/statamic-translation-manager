@@ -4,6 +4,7 @@
     "type": "statamic-addon",
     "require": {
         "php": "^8.0",
+        "ext-pdo_sqlite": "*",
         "laravel/framework": "^9.6 || ^10.0",
         "statamic/cms": "^4.0",
         "brick/varexporter": "^0.4",
