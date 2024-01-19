@@ -15,6 +15,10 @@ class AntlersParser
         'trans',
     ];
 
+    private $antlersTranslationModifiers = [
+        'trans',
+    ];
+
     public function __construct()
     {
         $this->documentParser = new DocumentParser();
@@ -56,6 +60,23 @@ class AntlersParser
                     }
 
                     $keys[] = $keyParam->value;
+                }
+            }
+
+            if ($node->runtimeNodes) {
+                $nodes = collect($node->runtimeNodes);
+                $hasTranslationModifier = $nodes
+                    ->filter(fn ($node) => get_class($node) == \Statamic\View\Antlers\Language\Nodes\ModifierNameNode::class && in_array($node->name, $this->antlersTranslationModifiers))
+                    ->first();
+
+                if ($hasTranslationModifier) {
+                    $translation = $nodes
+                        ->filter(fn ($node) => get_class($node) == \Statamic\View\Antlers\Language\Nodes\StringValueNode::class)
+                        ->first();
+
+                    if ($translation) {
+                        $keys[] = $translation->value;
+                    }
                 }
             }
         }
