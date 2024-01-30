@@ -2,13 +2,13 @@
 
 namespace RyanMitchell\StatamicTranslationManager\Events;
 
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Statamic\Contracts\Git\ProvidesCommitMessage;
+use Statamic\Events\Event;
 
-class TranslationsSaved implements ProvidesCommitMessage
+class TranslationsSaved extends Event implements ProvidesCommitMessage
 {
-    use Dispatchable, SerializesModels;
+    use SerializesModels;
 
     public function __construct(public string $locale, public string $namespace, public array $translations)
     {
