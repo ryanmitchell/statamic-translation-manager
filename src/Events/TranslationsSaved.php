@@ -2,7 +2,6 @@
 
 namespace RyanMitchell\StatamicTranslationManager\Events;
 
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Statamic\Contracts\Git\ProvidesCommitMessage;
 use Statamic\Events\Event;
