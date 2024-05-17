@@ -7,7 +7,7 @@
         "ext-pdo_sqlite": "*",
         "laravel/framework": "^9.6 || ^10.0 || ^11.0",
         "statamic/cms": "^4.0 || ^5.0",
-        "brick/varexporter": "^0.4",
+        "brick/varexporter": "^0.5",
         "calebporzio/sushi": "^2.4",
         "kkomelin/laravel-translatable-string-exporter": "^1.20"
     },
