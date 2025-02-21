@@ -88,7 +88,9 @@ class AntlersParser
     {
         foreach ($rootNode->processedInterpolationRegions as $interpolationRegion) {
             /** @var AntlersNode $node */
-            $node = $interpolationRegion[0];
+            if (isset($interpolationRegion[0])) {
+                $node = $interpolationRegion[0];
+            }
 
             if (! empty($node->processedInterpolationRegions)) {
                 $foundKeys = array_merge($foundKeys, $this->locateInterpolatedTranslationKeys($node, $foundKeys));
