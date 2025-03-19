@@ -10,7 +10,6 @@
     "Scan your blueprints for missing strings and add them to your language packs": "Scan blueprints op missende strings en voeg ze toe aan je taalbestanden.",
     "Scan your templates for missing strings in { trans } tags and add them to your language packs": "Scan templates op missende strings in `{ trans }` tags en voeg ze toe aan je taalbestanden.",
     "Template Scan": "Templatescan",
-    "Tools": "Gereedschappen",
     "Translations": "Vertalingen",
     "Translation Manager": "Vertalingsmanager",
     "Translations added. Look for blank strings": "Vertalingen toegevoegd. Nieuwe vertalingen zijn standaard lege strings."

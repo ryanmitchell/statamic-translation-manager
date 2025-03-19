@@ -13,7 +13,6 @@
     "scan_templates" => "Templates durchsuchen",
     "scan_templates_desc" => "Durchsuche Templates auf fehlende Strings in `{ trans }` Tags und füge sie deinen Sprach-Dateien hinzu.",
     "template_scan" => "Template-Scan",
-    "tools" => "Werkzeuge",
     "translations" => "Übersetzungen",
     "translation_manager" => "Übersetzungs-Manager",
     "translations_added" => "Übersetzungen hinzugefügt. Fehlende Übersetzungen sind leere Felder."

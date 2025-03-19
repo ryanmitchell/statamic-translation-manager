@@ -46,7 +46,7 @@ class ServiceProvider extends AddonServiceProvider
     {
         NavAPI::extend(fn (Nav $nav) => $nav
             ->content(__('statamic-translation-manager::default.translations'))
-            ->section(__('statamic-translation-manager::default.tools'))
+            ->section('Tools')
             ->can('manage translations')
             ->route('translation-manager.index')
             ->icon('content-writing')
