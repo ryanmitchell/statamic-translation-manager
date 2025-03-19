@@ -13,9 +13,7 @@
     "scan_templates" => "Scan templates",
     "scan_templates_desc" => "Scan your templates for missing strings in { trans } tags and add them to your language packs",
     "template_scan" => "Template Scan",
-    "tools" => "Tools",
     "translations" => "Translations",
     "translation_manager" => "Translation Manager",
     "translations_added" => "Translations added. Look for blank strings"
 ];
-

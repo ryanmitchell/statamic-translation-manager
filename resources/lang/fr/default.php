@@ -13,9 +13,7 @@
     "scan_templates" => "Scan des modèles (templates)",
     "scan_templates_desc" => "Scannez vos modèles (templates) à la recherche de chaînes manquantes dans les balises { trans } et ajoutez-les à vos packs de langue.",
     "template_scan" => "Scan des Templates",
-    "tools" => "Outils",
     "translations" => "Traductions",
     "translation_manager" => "Gestionnaire de traductions",
     "translations_added" => "Traductions ajoutées. Recherchez des chaînes vides."
 ];
-

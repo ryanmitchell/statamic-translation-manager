@@ -13,10 +13,8 @@ use Statamic\Statamic;
 
 class ServiceProvider extends AddonServiceProvider
 {
-    public function boot()
+    public function bootAddon()
     {
-        parent::boot();
-
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'statamic-translation-manager');
 
         $this->publishes([
@@ -48,7 +46,7 @@ class ServiceProvider extends AddonServiceProvider
     {
         NavAPI::extend(fn (Nav $nav) => $nav
             ->content(__('statamic-translation-manager::default.translations'))
-            ->section(__('statamic-translation-manager::default.tools'))
+            ->section('Tools')
             ->can('manage translations')
             ->route('translation-manager.index')
             ->icon('content-writing')

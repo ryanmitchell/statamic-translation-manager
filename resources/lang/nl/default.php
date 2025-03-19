@@ -13,9 +13,7 @@
     "scan_templates" => "Scan templates",
     "scan_templates_desc" => "Scan templates op missende strings in `{ trans }` tags en voeg ze toe aan je taalbestanden.",
     "template_scan" => "Templatescan",
-    "tools" => "Gereedschappen",
     "translations" => "Vertalingen",
     "translation_manager" => "Vertalingsmanager",
     "translations_added" => "Vertalingen toegevoegd. Nieuwe vertalingen zijn standaard lege strings."
 ];
-
