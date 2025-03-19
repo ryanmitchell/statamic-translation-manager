@@ -13,10 +13,8 @@ use Statamic\Statamic;
 
 class ServiceProvider extends AddonServiceProvider
 {
-    public function boot()
+    public function bootAddon()
     {
-        parent::boot();
-
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'statamic-translation-manager');
 
         $this->publishes([
