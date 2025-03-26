@@ -14,6 +14,6 @@
     "scan_templates_desc" => "Escanea tus plantillas en busca de cadenas faltantes en etiquetas { trans } y agrégalas a tus paquetes de idiomas",
     "template_scan" => "Escaneo de plantillas",
     "translations" => "Traducciones",
-    "translation_manager" => "Administrador de de traducciones",
+    "translation_manager" => "Administrador de traducciones",
     "translations_added" => "Traducciones agregadas. Busca cadenas en blanco"
 ];
