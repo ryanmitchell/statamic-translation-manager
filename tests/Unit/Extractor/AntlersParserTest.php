@@ -2,12 +2,13 @@
 
 namespace RyanMitchell\StatamicTranslationManager\Tests\Unit\Extractor;
 
+use PHPUnit\Framework\Attributes\Test;
 use RyanMitchell\StatamicTranslationManager\Tests\TestCase;
 use RyanMitchell\StatamicTranslationManager\Extractor\AntlersParser;
 
 class AntlersParserTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_parse_trans_modifier_from_antlers_file()
     {
         $parser = new AntlersParser;
@@ -19,7 +20,7 @@ class AntlersParserTest extends TestCase
         ], $keys);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_parse_trans_tag_from_antlers_file()
     {
         $parser = new AntlersParser;

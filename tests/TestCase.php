@@ -3,7 +3,7 @@
 namespace RyanMitchell\StatamicTranslationManager\Tests;
 
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
-use Statamic\Extend\Manifest;
+use Statamic\Addons\Manifest;
 use Statamic\Providers\StatamicServiceProvider;
 use Statamic\Statamic;
 use RyanMitchell\StatamicTranslationManager\ServiceProvider;
