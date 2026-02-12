@@ -3,13 +3,11 @@
 namespace RyanMitchell\StatamicTranslationManager\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Lang;
 use KKomelin\TranslatableStringExporter\Core\StringExtractor;
 use RyanMitchell\StatamicTranslationManager\Extractor\TranslationStringExtractor;
 use RyanMitchell\StatamicTranslationManager\Facades\TranslationManager;
 use RyanMitchell\StatamicTranslationManager\Models;
-use Statamic\Facades;
 use Statamic\Http\Controllers\Controller;
 
 class TemplateController extends Controller
