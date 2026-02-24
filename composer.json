@@ -39,7 +39,7 @@
     "extra": {
         "statamic": {
             "name": "Translation Manager",
-            "description": "Manager Laravel language files from the Statamic CP"
+            "description": "Manage Laravel language files from the Statamic CP"
         },
         "laravel": {
             "providers": [

@@ -13,6 +13,14 @@ use Statamic\Statamic;
 
 class ServiceProvider extends AddonServiceProvider
 {
+    protected $scripts = [
+        __DIR__.'/../resources/dist/build/js/cp.js',
+    ];
+
+    protected $publishables = [
+        __DIR__.'/../resources/dist/build' => '',
+    ];
+
     public function bootAddon()
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'statamic-translation-manager');

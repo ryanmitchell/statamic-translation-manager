@@ -4,6 +4,7 @@ namespace RyanMitchell\StatamicTranslationManager\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Inertia\Inertia;
 use RyanMitchell\StatamicTranslationManager\Facades\TranslationManager;
 use RyanMitchell\StatamicTranslationManager\Models;
 use Statamic\Facades;
@@ -53,6 +54,19 @@ class TranslationController extends Controller
         $translations = $fields->process()->values()->toArray();
 
         TranslationManager::saveTranslations($locale, $translations);
+    }
+
+    public function test()
+    {
+        $locales = Models\Language::all();
+        $blueprintsUrl = cp_route('translation-manager.blueprints');
+        $templatesUrl = cp_route('translation-manager.templates');
+        return Inertia::render('statamic-translation-manager::Index', [
+            'blueprintsUrl' => $blueprintsUrl,
+            'locales' => Models\Language::all(),
+            'templatesUrl' => $templatesUrl,
+            'title' => 'Test',
+        ]);
     }
 
     private function buildBlueprint(array $namespaces): Blueprint
