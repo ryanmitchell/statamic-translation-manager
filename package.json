@@ -13,6 +13,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@statamic/cms": "file:./vendor/statamic/cms/resources/dist-package"
+  },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.4",
     "laravel-vite-plugin": "^2.1.0",
