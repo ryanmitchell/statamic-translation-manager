@@ -13,14 +13,6 @@ use Statamic\Statamic;
 
 class ServiceProvider extends AddonServiceProvider
 {
-    protected $publishables = [
-        __DIR__.'/../resources/dist/build' => '',
-    ];
-
-    protected $scripts = [
-        __DIR__.'/../resources/dist/build/js/addon.js',
-    ];
-
     protected $vite = [
         'input' => [
             'resources/js/addon.js',
