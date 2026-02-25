@@ -15,9 +15,14 @@ class TranslationController extends Controller
 {
     public function index(Request $request)
     {
-        return view('statamic-translation-manager::index', [
-            'title' => __('statamic-translation-manager::default.translation_manager'),
-            'locales' => Models\Language::all(),
+        $locales = Models\Language::all();
+        $blueprintsUrl = cp_route('translation-manager.blueprints');
+        $templatesUrl = cp_route('translation-manager.templates');
+        return Inertia::render('statamic-translation-manager::Index', [
+            'blueprintsUrl' => $blueprintsUrl,
+            'locales' => $locales,
+            'templatesUrl' => $templatesUrl,
+            'title' => 'Translation Manager',
         ]);
     }
 
@@ -54,19 +59,6 @@ class TranslationController extends Controller
         $translations = $fields->process()->values()->toArray();
 
         TranslationManager::saveTranslations($locale, $translations);
-    }
-
-    public function test()
-    {
-        $locales = Models\Language::all();
-        $blueprintsUrl = cp_route('translation-manager.blueprints');
-        $templatesUrl = cp_route('translation-manager.templates');
-        return Inertia::render('statamic-translation-manager::Index', [
-            'blueprintsUrl' => $blueprintsUrl,
-            'locales' => Models\Language::all(),
-            'templatesUrl' => $templatesUrl,
-            'title' => 'Test',
-        ]);
     }
 
     private function buildBlueprint(array $namespaces): Blueprint
