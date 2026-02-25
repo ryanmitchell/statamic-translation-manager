@@ -28,9 +28,16 @@ export default defineConfig({
     },
     build: {
         rollupOptions: {
+            external: [
+                /^@statamic\/cms/,
+                'vue',
+            ],
             output: {
                 entryFileNames: 'js/cp.js',
                 assetFileNames: 'assets/[name][extname]',
+                globals: {
+                    vue: 'Vue',
+                },
             },
         },
     },

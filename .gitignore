@@ -1,4 +1,6 @@
 vendor
 composer.lock
+node_modules
+resources/dist/hot
 .idea
 .phpunit.cache
