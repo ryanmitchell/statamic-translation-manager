@@ -1,43 +1,26 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-import vue from '@vitejs/plugin-vue';
+import statamic from '@statamic/cms/vite-plugin'
 
 export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/js/cp.js',
+                'resources/js/addon.js',
             ],
             publicDirectory: 'resources/dist',
             hotFile: 'resources/dist/hot',
         }),
-        vue({
-            template: {
-                transformAssetUrls: {
-                    base: null,
-                    includeAbsolute: false,
-                },
-            },
-        }),
+        statamic(),
     ],
-    server: {
-        host: '0.0.0.0',
-        hmr: {
-            host: 'localhost',
-        },
-    },
     build: {
         rollupOptions: {
             external: [
                 /^@statamic\/cms/,
-                'vue',
             ],
             output: {
-                entryFileNames: 'js/cp.js',
+                entryFileNames: 'js/addon.js',
                 assetFileNames: 'assets/[name][extname]',
-                globals: {
-                    vue: 'Vue',
-                },
             },
         },
     },

@@ -14,7 +14,7 @@ import {
     TableRow
 } from '@statamic/cms/ui';
 
-const props = defineProps([
+defineProps([
     'blueprintsUrl',
     'locales',
     'templatesUrl',

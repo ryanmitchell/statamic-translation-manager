@@ -1,8 +1,8 @@
 {
-  "resources/js/cp.js": {
-    "file": "js/cp.js",
-    "name": "cp",
-    "src": "resources/js/cp.js",
+  "resources/js/addon.js": {
+    "file": "js/addon.js",
+    "name": "addon",
+    "src": "resources/js/addon.js",
     "isEntry": true
   }
 }
