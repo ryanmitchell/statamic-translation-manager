@@ -27,7 +27,7 @@ jobs:
             semantic-release@24.2.0 \
             @semantic-release/commit-analyzer@13.0.0 \
             @semantic-release/release-notes-generator@14.0.0 \
-            @semantic-release/github@11.0.0
+            @semantic-release/github@10.4.0
 
       - name: Release
         env:
