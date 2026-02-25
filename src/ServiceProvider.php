@@ -57,7 +57,7 @@ class ServiceProvider extends AddonServiceProvider
             ->section('Tools')
             ->can('manage translations')
             ->route('translation-manager.index')
-            ->icon('content-writing')
+            ->icon('dictionary-language-book')
         );
     }
 
