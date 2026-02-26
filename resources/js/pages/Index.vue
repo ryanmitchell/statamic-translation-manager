@@ -26,7 +26,7 @@ defineProps([
 
     <Panel heading="Manage Translations">
         <Card class="flex gap-4">
-            <Button class="m-0" v-for="locale in locales" :href="`/translations-manager/${locale.name}/edit`" :text="locale.name" />
+            <Button class="m-0" v-for="locale in locales" :href="`/cp/translations/locale/${locale.name}/edit`" :text="locale.name" />
         </Card>
     </Panel>
 

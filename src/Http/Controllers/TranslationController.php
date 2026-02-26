@@ -37,13 +37,15 @@ class TranslationController extends Controller
             ->addValues($translations->toArray())
             ->preProcess();
 
-        return view('statamic-translation-manager::edit', [
+        $componentData = [
             'blueprint' => $blueprint->toPublishArray(),
             'meta' => $fields->meta(),
-            'route' => cp_route('translation-manager.update', $locale),
+            'submitUrl' => cp_route('translation-manager.update', $locale),
             'title' => __('statamic-translation-manager::default.manage_translation_locale', ['locale' => $locale]),
             'values' => $fields->values(),
-        ]);
+        ];
+
+        return Inertia::render('statamic-translation-manager::Edit', $componentData);
     }
 
     public function update(Request $request, string $locale)
