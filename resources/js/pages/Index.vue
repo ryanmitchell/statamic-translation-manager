@@ -8,10 +8,7 @@ import {
     Heading,
     Icon,
     Panel,
-    Subheading,
-    Table,
-    TableCell,
-    TableRow
+    Subheading
 } from '@statamic/cms/ui';
 
 defineProps([
@@ -28,17 +25,8 @@ defineProps([
     <Header :title="__('Translation Manager')" icon="dictionary-language-book"/>
 
     <Panel heading="Manage Translations">
-        <Card>
-            <Table>
-                <TableRow v-for="locale in locales" :key="locale.id">
-                    <TableCell>
-                        <Button
-                            :href="`/translations-manager/${locale.id}/edit`"
-                            :text="locale.name"
-                        />
-                    </TableCell>
-                </TableRow>
-            </Table>
+        <Card class="flex gap-4">
+            <Button class="m-0" v-for="locale in locales" :href="`/translations-manager/${locale.name}/edit`" :text="locale.name" />
         </Card>
     </Panel>
 
