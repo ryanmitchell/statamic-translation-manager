@@ -4,6 +4,7 @@ namespace RyanMitchell\StatamicTranslationManager\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
+use Inertia\Inertia;
 use KKomelin\TranslatableStringExporter\Core\StringExtractor;
 use RyanMitchell\StatamicTranslationManager\Extractor\TranslationStringExtractor;
 use RyanMitchell\StatamicTranslationManager\Facades\TranslationManager;
@@ -20,12 +21,16 @@ class TemplateController extends Controller
 
         $missingTranslations = $this->findMissingStringsInTemplates();
 
-        return view('statamic-translation-manager::scan', [
-            'title' => __('statamic-translation-manager::default.template_scan'),
-            'edit_route' => 'translation-manager.templates.add',
-            'locales' => Models\Language::all(),
+        $data = [
+            'addToPackText' => __('statamic-translation-manager::default.add_to_pack'),
             'missing' => $missingTranslations,
-        ]);
+            'missingTransaltionsHeading' => __('statamic-translation-manager::default.missing_translations'),
+            'noneMissingMsg' => __('statamic-translation-manager::default.no_missing_translations'),
+            'scanType' => 'templates',
+            'title' => __('statamic-translation-manager::default.template_scan'),
+        ];
+
+        return Inertia::render('statamic-translation-manager::Scan', $data);
     }
 
     public function add(string $locale)

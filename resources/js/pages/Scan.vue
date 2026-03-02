@@ -7,6 +7,7 @@ defineProps([
     'missing',
     'missingTranslationsHeading',
     'noneMissingMsg',
+    'scanType',
     'title'
 ]);
 
@@ -25,9 +26,12 @@ defineProps([
     <Panel v-else :heading="missingTranslationsHeading">
         <Card v-for="(terms, locale) in missing" :key="locale" class="mb-4">
             <div class="flex items-center justify-between mb-2">
-                <Heading level="2" size="lg" :text="`${locale}: ${ terms.length }`"/>
+                <div>
+                    <span class="font-bold mr-2 text-xl">{{ locale }}</span>
+                    <span class="font-normal text-sm">[{{ terms.length }}]</span>
+                </div>
                 <Button
-                    :href="`/cp/translations/blueprints/${locale}/add`"
+                    :href="`/cp/translations/${scanType}/${locale}/add`"
                     :text="addToPackText"
                 />
             </div>

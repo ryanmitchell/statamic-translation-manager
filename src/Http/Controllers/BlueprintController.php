@@ -24,10 +24,11 @@ class BlueprintController extends Controller
 
         $data = [
             'addToPackText' => __('statamic-translation-manager::default.add_to_pack'),
-            'title' => __('statamic-translation-manager::default.blueprint_scan'),
             'missing' => $missingTranslations,
             'missingTranslationsHeading' => __('statamic-translation-manager::default.missing_translations'),
             'noneMissingMsg' => __('statamic-translation-manager::default.no_missing_translations'),
+            'scanType' => 'blueprints',
+            'title' => __('statamic-translation-manager::default.blueprint_scan'),
         ];
 
         return Inertia::render('statamic-translation-manager::Scan', $data);
