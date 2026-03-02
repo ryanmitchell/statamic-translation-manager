@@ -94,10 +94,12 @@ class TranslationManagerTest extends TestCase
         $strings = include(lang_path("{$this->lang}.php"));
         $this->assertNull(Arr::get($strings, 'some_new_key'));
         $this->assertNull(Arr::get($strings, 'another_key.one'));
+        $this->assertNull(Arr::get($strings, 'Ellipsis...'));
 
         TranslationManager::addTranslations($this->lang, [
             'some_new_key' => 'Yes',
             'another_key.one' => 'No',
+            'Ellipsis...' => 'Ellipsis...',
         ]);
 
         $strings = include(lang_path("{$this->lang}.php"));
@@ -105,5 +107,6 @@ class TranslationManagerTest extends TestCase
 
         $this->assertSame(Arr::get($strings, 'some_new_key'), 'Yes');
         $this->assertSame(Arr::get($strings2, 'one'), 'No');
+        $this->assertSame(Arr::get($strings, 'Ellipsis...'), 'Ellipsis...');
     }
 }
