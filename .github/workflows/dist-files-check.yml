@@ -1,0 +1,35 @@
+name: Check dist files to ensure they are up to date
+on: [ pull_request, push ]
+
+jobs:
+  build-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build dist assets
+        run: npm run build
+
+      - name: Verify dist files are up to date
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "❌ Build output differs from committed files."
+            echo "Run 'npm run build' locally and commit the changes."
+            git status
+            exit 1
+          else
+            echo "✅ Build output matches committed files."
+          fi
