@@ -26,7 +26,7 @@ jobs:
       - name: Verify dist files are up to date
         run: |
           if [ -n "$(git status --porcelain)" ]; then
-            echo "❌ Build output differs from committed files."
+            echo "❌ Build output (dist files) differs from committed files."
             echo "Run 'npm run build' locally and commit the changes."
             git status
             exit 1
