@@ -1,5 +1,5 @@
 name: Check dist files to ensure they are up to date
-on: [ pull_request, push ]
+on: [pull_request, push]
 
 jobs:
   build-check:
@@ -11,13 +11,34 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          tools: composer
+
+      - name: Get Composer cache dir
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --no-interaction --prefer-dist --no-progress
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      - name: Install dependencies
+      - name: Install npm dependencies
         run: npm ci
 
       - name: Build dist assets
@@ -25,10 +46,11 @@ jobs:
 
       - name: Verify dist files are up to date
         run: |
-          if [ -n "$(git status --porcelain)" ]; then
-            echo "❌ Build output (dist files) differs from committed files."
+          if [ -n "$(git status --porcelain resources/dist)" ]; then
+            echo "❌ Build output (resources/dist) differs from committed files."
             echo "Run 'npm run build' locally and commit the changes."
-            git status
+            git status --porcelain resources/dist
+            git diff -- resources/dist || true
             exit 1
           else
             echo "✅ Build output matches committed files."
