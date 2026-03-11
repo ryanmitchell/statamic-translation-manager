@@ -5,6 +5,7 @@ namespace RyanMitchell\StatamicTranslationManager\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Lang;
+use Inertia\Inertia;
 use RyanMitchell\StatamicTranslationManager\Facades\TranslationManager;
 use RyanMitchell\StatamicTranslationManager\Models;
 use Statamic\Facades;
@@ -21,12 +22,17 @@ class BlueprintController extends Controller
 
         $missingTranslations = $this->findMissingStringsInBlueprints();
 
-        return view('statamic-translation-manager::scan', [
-            'title' => __('statamic-translation-manager::default.blueprint_scan'),
-            'edit_route' => 'translation-manager.blueprints.add',
-            'locales' => Models\Language::all(),
+        $data = [
+            'addToPackText' => __('statamic-translation-manager::default.add_to_pack'),
             'missing' => $missingTranslations,
-        ]);
+            'missingTranslationsHeading' => __('statamic-translation-manager::default.missing_translations'),
+            'noneMissingMsg' => __('statamic-translation-manager::default.no_missing_translations'),
+            'scanType' => 'blueprints',
+            'title' => __('statamic-translation-manager::default.blueprint_scan'),
+        ];
+
+        return Inertia::render('statamic-translation-manager::Scan', $data);
+
     }
 
     public function add(string $locale)
@@ -59,56 +65,56 @@ class BlueprintController extends Controller
             ->flatten(1)
             ->filter()
         )
-        ->merge(Facades\Taxonomy::all()
-            ->map(function ($taxonomy) {
-                return $taxonomy->termBlueprints()
-                    ->map(function($blueprint) {
-                        return $this->checkBlueprint($blueprint);
-                    })
-                    ->filter()
-                    ->push($this->checkStringInLocales($taxonomy->title()));
-            })
-            ->flatten(1)
-            ->filter()
-        )
-        ->merge(Facades\Nav::all()
-            ->map(function ($nav) {
-                return array_merge($this->checkBlueprint($nav->blueprint()), $this->checkStringInLocales($nav->title()));
-            })
-            ->filter()
-        )
-        ->merge(Facades\GlobalSet::all()
-            ->map(function ($set) {
-                return array_merge($this->checkBlueprint($set->blueprint()), $this->checkStringInLocales($set->title()));
-            })
-            ->filter()
-        )
-        ->merge(Facades\AssetContainer::all()
-            ->map(function ($container) {
-                return array_merge($this->checkBlueprint($container->blueprint()), $this->checkStringInLocales($container->title()));
-            })
-            ->filter()
-        )
-        ->merge(Facades\Form::all()
-            ->map(function ($form) {
-                return array_merge($this->checkBlueprint($form->blueprint()), $this->checkStringInLocales($form->title()));
-            })
-            ->filter()
-        )
-        ->merge(Facades\Fieldset::all()
-            ->map(function ($fieldset) {
-                return $this->findMissingFieldStrings($fieldset->fields()->all()->toArray());
-            })
-            ->filter()
-        )
-        ->merge([$this->checkBlueprint(Facades\User::make()->blueprint())])
-        ->merge([$this->checkBlueprint(Facades\UserGroup::make()->blueprint())])
-        ->merge(Facades\Site::all()
-            ->map(function ($site) {
-                return $this->checkStringInLocales($site->name());
-            })
-            ->filter()
-        );
+            ->merge(Facades\Taxonomy::all()
+                ->map(function ($taxonomy) {
+                    return $taxonomy->termBlueprints()
+                        ->map(function($blueprint) {
+                            return $this->checkBlueprint($blueprint);
+                        })
+                        ->filter()
+                        ->push($this->checkStringInLocales($taxonomy->title()));
+                })
+                ->flatten(1)
+                ->filter()
+            )
+            ->merge(Facades\Nav::all()
+                ->map(function ($nav) {
+                    return array_merge($this->checkBlueprint($nav->blueprint()), $this->checkStringInLocales($nav->title()));
+                })
+                ->filter()
+            )
+            ->merge(Facades\GlobalSet::all()
+                ->map(function ($set) {
+                    return array_merge($this->checkBlueprint($set->blueprint()), $this->checkStringInLocales($set->title()));
+                })
+                ->filter()
+            )
+            ->merge(Facades\AssetContainer::all()
+                ->map(function ($container) {
+                    return array_merge($this->checkBlueprint($container->blueprint()), $this->checkStringInLocales($container->title()));
+                })
+                ->filter()
+            )
+            ->merge(Facades\Form::all()
+                ->map(function ($form) {
+                    return array_merge($this->checkBlueprint($form->blueprint()), $this->checkStringInLocales($form->title()));
+                })
+                ->filter()
+            )
+            ->merge(Facades\Fieldset::all()
+                ->map(function ($fieldset) {
+                    return $this->findMissingFieldStrings($fieldset->fields()->all()->toArray());
+                })
+                ->filter()
+            )
+            ->merge([$this->checkBlueprint(Facades\User::make()->blueprint())])
+            ->merge([$this->checkBlueprint(Facades\UserGroup::make()->blueprint())])
+            ->merge(Facades\Site::all()
+                ->map(function ($site) {
+                    return $this->checkStringInLocales($site->name());
+                })
+                ->filter()
+            );
 
         $missingTranslations = $missingTranslations
             ->flatten(1)

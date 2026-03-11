@@ -13,6 +13,14 @@ use Statamic\Statamic;
 
 class ServiceProvider extends AddonServiceProvider
 {
+    protected $vite = [
+        'publicDirectory' => 'dist',
+        'hotFile' => 'vendor/shopify/hot',
+        'input' => [
+            'resources/js/addon.js',
+        ],
+    ];
+
     public function bootAddon()
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'statamic-translation-manager');
@@ -49,7 +57,7 @@ class ServiceProvider extends AddonServiceProvider
             ->section('Tools')
             ->can('manage translations')
             ->route('translation-manager.index')
-            ->icon('content-writing')
+            ->icon('dictionary-language-book')
         );
     }
 
@@ -74,7 +82,7 @@ class ServiceProvider extends AddonServiceProvider
         Statamic::pushCpRoutes(fn () => Route::name('translation-manager.')->prefix('translations')->group(function () {
             Route::get('/', [Controllers\TranslationController::class, 'index'])->name('index');
             Route::get('/locale/{locale}/edit', [Controllers\TranslationController::class, 'edit'])->name('edit');
-            Route::post('locale/{locale}/update', [Controllers\TranslationController::class, 'update'])->name('update');
+            Route::post('/locale/{locale}/update', [Controllers\TranslationController::class, 'update'])->name('update');
 
             Route::get('/blueprints', [Controllers\BlueprintController::class, 'index'])->name('blueprints');
             Route::get('/blueprints/{locale}/add', [Controllers\BlueprintController::class, 'add'])->name('blueprints.add');

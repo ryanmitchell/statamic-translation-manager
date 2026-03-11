@@ -28,7 +28,13 @@ class TranslationsManager
         }
 
         $this->ignoreUndottingFilter = function ($phrase, $key) {
-            return str_contains($key, '.') == false || str_contains($key, ' ') || str_contains($key, '://') || str_contains($key, '@');
+            return (
+                str_contains($key, '.') == false ||
+                str_contains($key, ' ') ||
+                str_contains($key, '://') ||
+                str_contains($key, '@') ||
+                str_contains($key, '...') // Don't treat ellipsis as dot separated nested value
+            );
         };
     }
 

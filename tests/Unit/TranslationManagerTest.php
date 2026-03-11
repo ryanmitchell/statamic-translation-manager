@@ -4,6 +4,7 @@ namespace RyanMitchell\StatamicTranslationManager\Tests\Unit;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Lang;
+use PHPUnit\Framework\Attributes\Test;
 use RyanMitchell\StatamicTranslationManager\Facades\TranslationManager;
 use RyanMitchell\StatamicTranslationManager\Tests\TestCase;
 
@@ -26,7 +27,7 @@ class TranslationManagerTest extends TestCase
         unlink(lang_path("{$this->lang}.php"));
     }
 
-    /** @test */
+    #[Test]
     public function can_save_translations()
     {
         $strings = include(lang_path("{$this->lang}.php"));
@@ -46,7 +47,7 @@ class TranslationManagerTest extends TestCase
         $this->assertSame(Arr::get($strings, 'some_new_key'), 'Yes');
     }
 
-    /** @test */
+    #[Test]
     public function can_save_mixed_key_translations()
     {
         $strings = include(lang_path("{$this->lang}.php"));
@@ -72,7 +73,7 @@ class TranslationManagerTest extends TestCase
         $this->assertSame(Arr::get($strings, 'another_key.one'), 'No');
     }
 
-    /** @test */
+    #[Test]
     public function can_add_translations()
     {
         $strings = include(lang_path("{$this->lang}.php"));
@@ -87,16 +88,18 @@ class TranslationManagerTest extends TestCase
         $this->assertSame(Arr::get($strings, 'some_new_key'), 'Yes');
     }
 
-    /** @test */
+    #[Test]
     public function can_add_mixed_key_translations()
     {
         $strings = include(lang_path("{$this->lang}.php"));
         $this->assertNull(Arr::get($strings, 'some_new_key'));
         $this->assertNull(Arr::get($strings, 'another_key.one'));
+        $this->assertNull(Arr::get($strings, 'Ellipsis...'));
 
         TranslationManager::addTranslations($this->lang, [
             'some_new_key' => 'Yes',
             'another_key.one' => 'No',
+            'Ellipsis...' => 'Ellipsis...',
         ]);
 
         $strings = include(lang_path("{$this->lang}.php"));
@@ -104,5 +107,6 @@ class TranslationManagerTest extends TestCase
 
         $this->assertSame(Arr::get($strings, 'some_new_key'), 'Yes');
         $this->assertSame(Arr::get($strings2, 'one'), 'No');
+        $this->assertSame(Arr::get($strings, 'Ellipsis...'), 'Ellipsis...');
     }
 }

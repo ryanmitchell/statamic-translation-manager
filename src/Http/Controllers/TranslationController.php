@@ -4,6 +4,7 @@ namespace RyanMitchell\StatamicTranslationManager\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Inertia\Inertia;
 use RyanMitchell\StatamicTranslationManager\Facades\TranslationManager;
 use RyanMitchell\StatamicTranslationManager\Models;
 use Statamic\Facades;
@@ -14,9 +15,14 @@ class TranslationController extends Controller
 {
     public function index(Request $request)
     {
-        return view('statamic-translation-manager::index', [
-            'title' => __('statamic-translation-manager::default.translation_manager'),
-            'locales' => Models\Language::all(),
+        $locales = Models\Language::all();
+        $blueprintsUrl = cp_route('translation-manager.blueprints');
+        $templatesUrl = cp_route('translation-manager.templates');
+        return Inertia::render('statamic-translation-manager::Index', [
+            'blueprintsUrl' => $blueprintsUrl,
+            'locales' => $locales,
+            'templatesUrl' => $templatesUrl,
+            'title' => 'Translation Manager',
         ]);
     }
 
@@ -31,13 +37,15 @@ class TranslationController extends Controller
             ->addValues($translations->toArray())
             ->preProcess();
 
-        return view('statamic-translation-manager::edit', [
+        $componentData = [
             'blueprint' => $blueprint->toPublishArray(),
             'meta' => $fields->meta(),
-            'route' => cp_route('translation-manager.update', $locale),
+            'submitUrl' => cp_route('translation-manager.update', $locale),
             'title' => __('statamic-translation-manager::default.manage_translation_locale', ['locale' => $locale]),
             'values' => $fields->values(),
-        ]);
+        ];
+
+        return Inertia::render('statamic-translation-manager::Edit', $componentData);
     }
 
     public function update(Request $request, string $locale)
