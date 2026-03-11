@@ -31,4 +31,4 @@ jobs:
              composer install --no-interaction
 
       - name: Execute tests
-        run: vendor/bin/phpunit -c phpunit.xml
+        run: vendor/bin/phpunit
