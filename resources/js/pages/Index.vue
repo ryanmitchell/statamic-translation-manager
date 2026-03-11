@@ -20,17 +20,17 @@ defineProps([
 </script>
 
 <template>
-    <Head :title="__('Translation Manager')"/>
+    <Head :title="__('statamic-translation-manager::default.translation_manager')"/>
 
-    <Header :title="__('Translation Manager')" icon="dictionary-language-book"/>
+    <Header :title="__('statamic-translation-manager::default.translation_manager')" icon="dictionary-language-book"/>
 
-    <Panel heading="Manage Translations">
+    <Panel :heading="__('statamic-translation-manager::default.manage_translations')">
         <Card class="flex gap-4">
-            <Button class="m-0" v-for="locale in locales" :href="`/cp/translations/locale/${locale.name}/edit`" :text="locale.name" />
+            <Button class="m-0" v-for="locale in locales" :href="cp_url(`/translations/locale/${locale.name}/edit`)" :text="locale.name" />
         </Card>
     </Panel>
 
-    <CardPanel :heading="__('Check for missing translations')">
+    <CardPanel :heading="__('statamic-translation-manager::default.check_for_missing_translations')">
         <div class="flex flex-wrap starting-style-transition-children">
 
             <Link

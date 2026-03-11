@@ -1,4 +1,5 @@
 <script setup>
+import {Head} from '@statamic/cms/inertia';
 import {PublishForm} from '@statamic/cms/ui';
 
 defineProps([
@@ -11,6 +12,8 @@ defineProps([
 </script>
 
 <template>
+    <Head :title="__('statamic-translation-manager::default.translation_manager')"/>
+
     <PublishForm
         :blueprint="blueprint"
         icon="dictionary-language-book"
@@ -19,9 +22,7 @@ defineProps([
         submitMethod="POST"
         :submitUrl="submitUrl"
         :title="title"
-    >
-
-    </PublishForm>
+    />
 </template>
 
 <style scoped>

@@ -1,8 +1,0 @@
-{
-  "resources/js/addon.js": {
-    "file": "js/addon.js",
-    "name": "addon",
-    "src": "resources/js/addon.js",
-    "isEntry": true
-  }
-}

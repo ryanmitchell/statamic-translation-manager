@@ -14,10 +14,11 @@ use Statamic\Statamic;
 class ServiceProvider extends AddonServiceProvider
 {
     protected $vite = [
+        'publicDirectory' => 'dist',
+        'hotFile' => 'vendor/shopify/hot',
         'input' => [
             'resources/js/addon.js',
         ],
-        'publicDirectory' => 'resources/dist',
     ];
 
     public function bootAddon()

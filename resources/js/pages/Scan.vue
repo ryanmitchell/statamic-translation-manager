@@ -31,7 +31,7 @@ defineProps([
                     <span class="font-normal text-sm">[{{ terms.length }}]</span>
                 </div>
                 <Button
-                    :href="`/cp/translations/${scanType}/${locale}/add`"
+                    :href="cp_url(`/translations/${scanType}/${locale}/add`)"
                     :text="addToPackText"
                 />
             </div>
@@ -47,7 +47,3 @@ defineProps([
 
     </Panel>
 </template>
-
-<style scoped>
-
-</style>
