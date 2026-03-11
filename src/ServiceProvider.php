@@ -15,7 +15,7 @@ class ServiceProvider extends AddonServiceProvider
 {
     protected $vite = [
         'publicDirectory' => 'dist',
-        'hotFile' => 'vendor/shopify/hot',
+        'hotFile' => 'vendor/statamic-translation-manager/hot',
         'input' => [
             'resources/js/addon.js',
         ],
