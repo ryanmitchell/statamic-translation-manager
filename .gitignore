@@ -4,3 +4,4 @@ resources/dist/hot
 .idea
 .phpunit.cache
 dist/
+composer.lock
