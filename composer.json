@@ -45,6 +45,12 @@
             "providers": [
                 "RyanMitchell\\StatamicTranslationManager\\ServiceProvider"
             ]
+        },
+        "extra": {
+            "download-dist": {
+                "path": "dist",
+                "url": "https://github.com/thoughtco/statamic-translation-manager/releases/download/{$version}/dist.tar.gz"
+            }
         }
     },
     "config": {
