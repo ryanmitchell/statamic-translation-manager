@@ -47,11 +47,9 @@
                 "RyanMitchell\\StatamicTranslationManager\\ServiceProvider"
             ]
         },
-        "extra": {
-            "download-dist": {
-                "path": "dist",
-                "url": "https://github.com/ryanmitchell/statamic-translation-manager/releases/download/{$version}/dist.tar.gz"
-            }
+        "download-dist": {
+            "path": "dist",
+            "url": "https://github.com/ryanmitchell/statamic-translation-manager/releases/download/{$version}/dist.tar.gz"
         }
     },
     "config": {
