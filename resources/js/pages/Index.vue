@@ -25,7 +25,7 @@ defineProps([
     <Header :title="__('statamic-translation-manager::default.translation_manager')" icon="dictionary-language-book"/>
 
     <Panel :heading="__('statamic-translation-manager::default.manage_translations')">
-        <Card class="flex gap-4">
+        <Card class="flex flex-wrap gap-4">
             <Button class="m-0" v-for="locale in locales" :href="cp_url(`/translations/locale/${locale.name}/edit`)" :text="locale.name" />
         </Card>
     </Panel>
