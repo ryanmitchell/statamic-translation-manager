@@ -23,8 +23,6 @@ class ServiceProvider extends AddonServiceProvider
 
     public function bootAddon()
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'statamic-translation-manager');
-
         $this->publishes([
             __DIR__.'/../config/statamic-translations.php' => config_path('statamic-translations.php')
         ], 'config');
