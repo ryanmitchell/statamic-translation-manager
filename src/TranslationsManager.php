@@ -201,7 +201,7 @@ class TranslationsManager
             }
 
             if ($this->filesystem->extension($path) == 'json') {
-                $this->filesystem->put($path, json_encode($phrases, JSON_PRETTY_PRINT));
+                $this->filesystem->put($path, json_encode($phrases, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
             }
 
             TranslationsSaved::dispatch($locale, $namespace, $translations);
