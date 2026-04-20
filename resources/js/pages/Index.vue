@@ -35,7 +35,7 @@ defineProps([
 
             <Link
                 :href="blueprintsUrl"
-                class="group w-full items-start rounded-md border border-transparent px-2 py-3 lg:p-4 hover:bg-gray-100 dark:hover:border-dark-400 dark:hover:bg-dark-575 md:flex lg:w-1/2"
+                class="group w-full items-start rounded-md border border-transparent px-2 py-3 lg:p-4 hover:bg-gray-100 dark:hover:border-dark-400 dark:hover:bg-gray-800 md:flex lg:w-1/2"
             >
                 <div class="size-6 text-gray-400 mt-1 mb-2 me-4">
                     <Icon :class="['size-6', 'text-gray-400', 'mt-1', 'mb-2', 'me-4']" name="blueprints" set="default"/>
@@ -48,7 +48,7 @@ defineProps([
 
             <Link
                 :href="templatesUrl"
-                class="group w-full items-start rounded-md border border-transparent px-2 py-3 lg:p-4 hover:bg-gray-100 dark:hover:border-dark-400 dark:hover:bg-dark-575 md:flex lg:w-1/2"
+                class="group w-full items-start rounded-md border border-transparent px-2 py-3 lg:p-4 hover:bg-gray-100 dark:hover:border-dark-400 dark:hover:bg-gray-800 md:flex lg:w-1/2"
             >
                 <div class="size-6 text-gray-400 mt-1 mb-2 me-4">
                     <Icon class="size-6 text-gray-400 mt-1 mb-2 me-4" name="blueprints" set="default"/>
